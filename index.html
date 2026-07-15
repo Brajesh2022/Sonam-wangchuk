@@ -226,59 +226,41 @@
     });
 
     const CONSTITUENCY_GEOJSON = 'https://gist.githack.com/planemad/1e2b63f6b9806970db749f19980ffd25/raw/d0b13d1b8df9c4f9b88e16de1271661ff6b64923/india_pc_2024_simplified.geojson';
-    const PINDB_URL = 'pindb.json';
+    // pinmap.json: pre-computed pin → [constituency, state] via offline majority-vote
+    // pindb.json: pin → [lat, lon, state] kept only for GPS point-in-polygon fallback
+    const PINMAP_URL = 'pinmap.json';
 
     let constituencies = null;
-    /** @type {Object.<string,[number,number,string,string]>|null} */
-    let pindb = null;
+    /** @type {Object.<string,[string,string]>|null} pincode → [constituency, state] */
+    let pinmap = null;
     let dbResolve;
     const dbPromise = new Promise(resolve => { dbResolve = resolve; });
 
-    // Fast Spatial Bounding Box Cacher
+    // Spatial helpers — used only for GPS location path
     function cacheBoundingBoxes(features) {
-      features.forEach(feature => {
-        feature.bbox = turf.bbox(feature);
-      });
+      features.forEach(feature => { feature.bbox = turf.bbox(feature); });
     }
 
     function isPointInBBox(pointCoords, bbox) {
-      return pointCoords[0] >= bbox[0] && 
-             pointCoords[1] >= bbox[1] && 
-             pointCoords[0] <= bbox[2] && 
-             pointCoords[1] <= bbox[3];
+      return pointCoords[0] >= bbox[0] && pointCoords[1] >= bbox[1] &&
+             pointCoords[0] <= bbox[2] && pointCoords[1] <= bbox[3];
     }
 
     function findMatchingConstituency(pointCoords) {
       if (!constituencies) return null;
       const point = turf.point(pointCoords);
-      const candidates = constituencies.filter(feature => {
-        if (!feature.bbox) return true;
-        return isPointInBBox(pointCoords, feature.bbox);
-      });
-      return candidates.find(feature => turf.booleanPointInPolygon(point, feature));
+      const candidates = constituencies.filter(f => !f.bbox || isPointInBBox(pointCoords, f.bbox));
+      return candidates.find(f => turf.booleanPointInPolygon(point, f));
     }
 
     function getName(feature) {
-      const properties = feature.properties || {};
-      return properties.PC_NAME || properties.pc_name || properties.name || 'Unknown constituency';
+      const p = feature.properties || {};
+      return p.PC_NAME || p.pc_name || p.name || 'Unknown constituency';
     }
 
     function getState(feature) {
-      const properties = feature.properties || {};
-      return properties.ST_NAME || properties.st_name || properties.state || properties.STATE || '';
-    }
-
-    function mappedPoint(office) {
-      const latitude = Number(office.latitude);
-      const longitude = Number(office.longitude);
-      if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return null;
-      if (Math.abs(latitude) > 90 || Math.abs(longitude) > 180) return null;
-      return [longitude, latitude];
-    }
-
-    function coordinateKey(office) {
-      const coords = mappedPoint(office);
-      return coords ? coords.join(',') : null;
+      const p = feature.properties || {};
+      return p.ST_NAME || p.st_name || p.state || p.STATE || '';
     }
 
     function normalizeText(value) {
@@ -301,19 +283,14 @@
     async function initPreload() {
       const geoUrl = CONSTITUENCY_GEOJSON;
       try {
-        // Load constituency GeoJSON (with Cache API fallback)
+        // 1. Load constituency GeoJSON (needed for GPS path; cached via Cache API)
         let geoResponse = null;
         if ('caches' in window) {
           try {
             const cache = await caches.open('constituency-cache-v2');
             geoResponse = await cache.match(geoUrl);
-            if (!geoResponse) {
-              await cache.add(geoUrl);
-              geoResponse = await cache.match(geoUrl);
-            }
-          } catch (cacheErr) {
-            console.warn('Cache API fallback:', cacheErr);
-          }
+            if (!geoResponse) { await cache.add(geoUrl); geoResponse = await cache.match(geoUrl); }
+          } catch (e) { console.warn('Cache API fallback:', e); }
         }
         if (!geoResponse) geoResponse = await fetch(geoUrl);
         if (!geoResponse.ok) throw new Error('Network error loading map.');
@@ -321,10 +298,10 @@
         constituencies = geoData.features;
         cacheBoundingBoxes(constituencies);
 
-        // Load offline pincode database (served from same origin, gzip-compressed)
-        const pinResponse = await fetch(PINDB_URL);
-        if (!pinResponse.ok) throw new Error('Failed to load pincode database.');
-        pindb = await pinResponse.json();
+        // 2. Load pre-computed PIN→constituency map (92KB gzipped, same origin)
+        const pmRes = await fetch(PINMAP_URL);
+        if (!pmRes.ok) throw new Error('Failed to load pincode map.');
+        pinmap = await pmRes.json();
 
         dbResolve();
       } catch (err) {
@@ -363,15 +340,13 @@
 
         // Check if it is a 6-digit PIN code
         if (/^\d{6}$/.test(inputVal)) {
-          if (!pindb) throw new Error('Pincode database is still loading. Please try again.');
-          const entry = pindb[inputVal];
+          if (!pinmap) throw new Error('Pincode map is still loading. Please try again.');
+          const entry = pinmap[inputVal];
           if (!entry) throw new Error('PIN code not found in our database.');
 
-          // entry = [lat, lon, state, district] — O(1) offline lookup, no network call
-          const [lat, lon] = entry;
-          const match = findMatchingConstituency([lon, lat]);
-          if (!match) throw new Error('No constituency boundary found for this PIN code.');
-          openModal(getName(match), getState(match));
+          // Pre-computed constituency — majority-voted offline across all post offices
+          // No spatial math needed at runtime: just a dict lookup.
+          openModal(entry[0], entry[1]);
         } else {
           // Search by constituency name
           const query = inputVal.toLowerCase();
