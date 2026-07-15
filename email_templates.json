@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "campaign": {
+    "protest_start_date": "2026-06-28",
+    "last_session_sittings": 31
+  },
+  "special_templates": {
+    "4074": 10,
+    "4589": 11
+  },
+  "rules": [
+    {
+      "template_id": 10,
+      "mpsno": 4074
+    },
+    {
+      "template_id": 11,
+      "mpsno": 4589
+    },
+    {
+      "template_id": 9,
+      "is_minister": true,
+      "questions_gt": 0
+    },
+    {
+      "template_id": 8,
+      "is_minister": true,
+      "questions_lte": 0
+    },
+    {
+      "template_id": 1,
+      "is_minister": false,
+      "attendance_lt": 50,
+      "questions_gt": 0,
+      "party_not": "BJP"
+    },
+    {
+      "template_id": 2,
+      "is_minister": false,
+      "attendance_lt": 50,
+      "questions_gt": 0,
+      "party": "BJP"
+    },
+    {
+      "template_id": 3,
+      "is_minister": false,
+      "attendance_lt": 50,
+      "questions_eq": 0,
+      "party_not": "BJP"
+    },
+    {
+      "template_id": 4,
+      "is_minister": false,
+      "attendance_lt": 50,
+      "questions_eq": 0,
+      "party": "BJP"
+    },
+    {
+      "template_id": 5,
+      "is_minister": false,
+      "attendance_gte": 50,
+      "questions_eq": 0,
+      "party_not": "BJP"
+    },
+    {
+      "template_id": 6,
+      "is_minister": false,
+      "attendance_gte": 50,
+      "questions_eq": 0,
+      "party": "BJP"
+    },
+    {
+      "template_id": 7,
+      "is_minister": false,
+      "attendance_gte": 50,
+      "questions_gt": 0
+    }
+  ],
+  "default_template_id": 7,
+  "templates": [
+    {
+      "id": 1,
+      "name": "Attendance < 50%, questions > 0, non-BJP",
+      "subject": "URGENT: Citizen's health critical in Delhi, {constituency} needs you to act now",
+      "body": "Dear {mp_name},\n\nYou are my Member of Parliament, elected from {constituency}, representing {party}. I am writing to you with extreme urgency. Your attendance last session was only {attendance} out of 31 sittings. Right now, your physical absence from Delhi is having severe consequences.\n\nSonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. He has lost over 8.5 kg, his blood pressure has dropped to 109/70, and doctors warn his body is nearing a dangerous phase with risks of organ dysfunction. He is risking his life to demand accountability for the NEET-UG 2026 exam paper leak that has affected millions of students, the resignation of Education Minister Dharmendra Pradhan, and compensation for families of students who died by suicide.\n\nThe Monsoon Session begins July 21. I am asking you directly: travel to Delhi immediately. Walk the few steps to Jantar Mantar, meet Sonam Wangchuk, and show your support before it is too late. Then, carry his demands to the floor of the House.\n\nWe need you present, not just in Parliament, but on the right side of history.\n\nI want to remind you that in the coming years, the EVM button will be in our hands. It does not matter which party you belong to. If you remain silent and do nothing while a citizen's life hangs by a thread in Delhi, the voters of {constituency} will remember.\n\nA concerned voter from {constituency}"
+    },
+    {
+      "id": 2,
+      "name": "Same as #1, BJP variant",
+      "subject": "URGENT: Nation before party, {constituency} needs you in Delhi now",
+      "body": "Dear {mp_name},\n\nYou are my Member of Parliament, elected from {constituency}, representing {party}. I know raising this with a BJP MP means asking you to weigh party loyalty against constituency duty. But this is a matter of life and death.\n\nRemember Atal Bihari Vajpayee's words: parties will come and go, but the nation must remain. Right now, the nation's education system is broken, and a citizen is dying for it. Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. His health is in a critical phase, with significant weight loss and dangerously low blood pressure. He is demanding accountability for the NEET-UG paper leak, the resignation of the Education Minister, and justice for affected students.\n\nYour attendance last session was only {attendance} out of 31 sittings. The Monsoon Session starts July 21. I urge you to be in Delhi before the session, visit Jantar Mantar, and stand with Wangchuk. Raise this issue inside your party and demand accountability from the Education Minister.\n\nPlease, prove that your duty to the nation outweighs party discipline.\n\nI want to remind you that in the coming years, the EVM button will be in our hands. It does not matter which party you belong to. If you remain silent and do nothing while a citizen's life hangs by a thread in Delhi, the voters of {constituency} will remember.\n\nA concerned voter from {constituency}"
+    },
+    {
+      "id": 3,
+      "name": "Attendance < 50% AND questions = 0, non-BJP",
+      "subject": "Your silence is deafening while a citizen's health fails",
+      "body": "Dear {mp_name},\n\nYou are my Member of Parliament from {constituency}, representing {party}. Here is a harsh reality check: your attendance last session was below 50%, and you have not asked a single question in this entire Lok Sabha.\n\nWhile you have remained silent, Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. His medical condition is critical. He has lost over 8.5 kg, his blood pressure is dangerously low, and doctors are warning of organ dysfunction risks. He is fighting for accountability in the education system after the NEET-UG paper leak scandal.\n\nThe government feels it can ignore him because MPs like you are absent and silent. The Monsoon Session begins July 21. You must be in Delhi before then. Go to Jantar Mantar, meet him, and witness his condition yourself. Then, use your seat in Parliament to ask the questions we elected you to ask.\n\nDo not let your legacy be complicity through silence.\n\nI want to remind you that in the coming years, the EVM button will be in our hands. It does not matter which party you belong to. If you remain silent and do nothing while a citizen's life hangs by a thread in Delhi, the voters of {constituency} will remember.\n\nA concerned voter from {constituency}"
+    },
+    {
+      "id": 4,
+      "name": "Same as #3, BJP variant",
+      "subject": "A reality check from {constituency}: Stand for accountability",
+      "body": "Dear {mp_name},\n\nYou are my MP from {constituency}, representing {party}. I understand the tension between party loyalty and constituency duty. But remember Vajpayee's words: parties come and go, the nation must remain.\n\nYour attendance last session was below 50%, and you have asked zero questions in the Lok Sabha. Meanwhile, Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. His health is in a critical phase, with significant weight loss and low blood pressure. He is demanding accountability for the NEET-UG paper leak that has affected students in {constituency} directly.\n\nThe Monsoon Session begins July 21. Before you enter Parliament, visit Jantar Mantar and meet him. As a BJP MP, your voice inside the party matters. Demand accountability from the Education Minister. Do this for the people who elected you.\n\nI want to remind you that in the coming years, the EVM button will be in our hands. It does not matter which party you belong to. If you remain silent and do nothing while a citizen's life hangs by a thread in Delhi, the voters of {constituency} will remember.\n\nA concerned voter from {constituency}"
+    },
+    {
+      "id": 5,
+      "name": "Attendance ≥ 50%, questions = 0, non-BJP",
+      "subject": "You show up to Parliament, but will you show up at Jantar Mantar?",
+      "body": "Dear {mp_name},\n\nYou are my Member of Parliament from {constituency}, representing {party}. You attend Parliament regularly, I will give you that. But in this entire Lok Sabha, you have not asked a single question. Showing up to be marked present is not the same as representing us.\n\nSonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. His health is deteriorating. He has lost over 8.5 kg, his blood pressure has dropped to 109/70, and doctors warn he is entering a dangerous phase. He is demanding accountability for the NEET-UG paper leak and justice for students.\n\nThe Monsoon Session starts July 21. Before the session begins, I expect you to visit Jantar Mantar, meet Sonam Wangchuk, and show your support. Then, use your voice in the House to ask the questions the government refuses to answer.\n\nUse your attendance record for something that actually matters.\n\nI want to remind you that in the coming years, the EVM button will be in our hands. It does not matter which party you belong to. If you remain silent and do nothing while a citizen's life hangs by a thread in Delhi, the voters of {constituency} will remember.\n\nA concerned voter from {constituency}"
+    },
+    {
+      "id": 6,
+      "name": "Same as #5, BJP variant",
+      "subject": "Attendance isn't the same as accountability",
+      "body": "Dear {mp_name},\n\nYou are my Member of Parliament from {constituency}, representing {party}. I understand party loyalty matters to you. But loyalty to {party} should not mean abandoning accountability to the people.\n\nYou attend Parliament regularly, but you have never asked a question in this Lok Sabha. Sonam Wangchuk is on Day {fast_day} of his hunger strike at Jantar Mantar. His health is in a critical phase, with significant weight loss and low blood pressure. He is fighting for accountability in the education system after the NEET-UG paper leak scandal.\n\nBefore the Monsoon Session begins on July 21, go to Jantar Mantar. Meet him. See what citizens are being forced to do to get the government's attention. Then, be the BJP MP who actually stands up for students inside the House.\n\nDo the job {constituency} elected you to do.\n\nI want to remind you that in the coming years, the EVM button will be in our hands. It does not matter which party you belong to. If you remain silent and do nothing while a citizen's life hangs by a thread in Delhi, the voters of {constituency} will remember.\n\nA concerned voter from {constituency}"
+    },
+    {
+      "id": 7,
+      "name": "Attendance good, questions > 10 (appreciation)",
+      "subject": "Thank you for your service, now I need your urgent help",
+      "body": "Dear {mp_name},\n\nYou are my Member of Parliament from {constituency}. I want to start with a genuine thank you. Your attendance is strong, and you have asked {questions} questions in this Lok Sabha. That is the representation we hope for.\n\nBecause I know you take your job seriously, I am bringing an urgent crisis to your attention. Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. His medical condition is critical. He has lost over 8.5 kg, his blood pressure is dangerously low, and doctors warn of organ dysfunction risks. He is demanding accountability for the NEET-UG paper leak and justice for affected students.\n\nThe Monsoon Session begins July 21. I trust you to be in Delhi before the session, visit Jantar Mantar to show your support, and raise this critical issue on the floor of the House with the same vigor you have shown before.\n\nThank you for showing up. Now is the time to stand up.\n\nI want to remind you that in the coming years, the EVM button will be in our hands. It does not matter which party you belong to. If you remain silent and do nothing while a citizen's life hangs by a thread in Delhi, the voters of {constituency} will remember.\n\nA concerned voter from {constituency}"
+    },
+    {
+      "id": 8,
+      "name": "Minister, low engagement on this issue",
+      "subject": "A citizen's health is failing, your Ministry must respond",
+      "body": "Dear {mp_name},\n\nYou are my Member of Parliament from {constituency}, and you serve as a Minister in the Union Government. That gives you immense power and influence inside the government.\n\nSonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. His health is in a critical phase. He has lost over 8.5 kg, his blood pressure has dropped to 109/70, and doctors warn he is nearing a dangerous stage. He is demanding accountability for the NEET-UG paper leak scandal, the resignation of Education Minister Dharmendra Pradhan, and compensation for families of students who died by suicide.\n\nHave you visited Jantar Mantar? Have you raised this inside the government? As a Minister, you can push for internal accountability that a backbencher cannot.\n\nBefore the Monsoon Session begins on July 21, visit Jantar Mantar. Meet him. Use your influence to ensure the government engages with his demands before a tragedy occurs.\n\nI want to remind you that in the coming years, the EVM button will be in our hands. It does not matter which party you belong to. If you remain silent and do nothing while a citizen's life hangs by a thread in Delhi, the voters of {constituency} will remember.\n\nA concerned voter from {constituency}"
+    },
+    {
+      "id": 9,
+      "name": "Minister, has asked questions",
+      "subject": "You have done more than most Ministers, I need one more thing",
+      "body": "Dear {mp_name},\n\nYou are my MP from {constituency}, and you serve as a Minister in the Union Government. Most Ministers never ask questions in the House. You have. That shows you take your role as an MP seriously, not just your Ministerial post.\n\nI am bringing an urgent matter to you. Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. His medical condition is critical. He has lost over 8.5 kg, his blood pressure is dangerously low, and doctors warn of organ dysfunction risks. He is demanding accountability for the NEET-UG paper leak and justice for students.\n\nBefore the Monsoon Session begins on July 21, please visit Jantar Mantar to meet him. Given your position inside the government and your willingness to speak up, you are uniquely positioned to break the silence and demand accountability. Do not just take note of this, act on it.\n\nI want to remind you that in the coming years, the EVM button will be in our hands. It does not matter which party you belong to. If you remain silent and do nothing while a citizen's life hangs by a thread in Delhi, the voters of {constituency} will remember.\n\nA concerned voter from {constituency}"
+    },
+    {
+      "id": 10,
+      "name": "Leader of Opposition (Rahul Gandhi)",
+      "subject": "{constituency} needs to see you at Jantar Mantar before July 21",
+      "body": "Dear Shri Rahul Gandhi,\n\nYou are my Member of Parliament from {constituency}, and you serve as Leader of the Opposition. Yours is one of the most visible platforms in Indian democracy.\n\nSonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. His health is in a critical phase. He has lost over 8.5 kg, his blood pressure has dropped to 109/70, and doctors warn he is entering a dangerous stage. He is fighting for accountability in the education system after the NEET-UG paper leak scandal. The government is ignoring him, hoping he will simply collapse.\n\nThis is exactly why the Opposition exists. Before the Monsoon Session begins on July 21, I want to see you at Jantar Mantar, standing beside Sonam Wangchuk. People remember who showed up when it was a matter of life and death, and who stayed away.\n\nShow up. Use your platform to force the government's hand.\n\nI want to remind you that in the coming years, the EVM button will be in our hands. It does not matter which party you belong to. If you remain silent and do nothing while a citizen's life hangs by a thread in Delhi, the voters of {constituency} will remember.\n\nA concerned voter from {constituency}"
+    },
+    {
+      "id": 11,
+      "name": "Prime Minister",
+      "subject": "{constituency} demands accountability before a citizen's health fails",
+      "body": "Dear Prime Minister,\n\nYou are my Member of Parliament from {constituency}. You were elected on a promise of accountability. \"Na khaunga, na khane dunga\" resonated with millions of us.\n\nRight now, the Ministry of Education is at the center of the NEET-UG paper leak scandal that has cost students their futures and, tragically, their lives. Sonam Wangchuk, a 59 year old citizen, is on Day {fast_day} of a hunger strike at Jantar Mantar. His medical condition is critical. He has lost over 8.5 kg, his blood pressure is dangerously low, and doctors warn of organ dysfunction risks. He is demanding accountability, the resignation of Education Minister Dharmendra Pradhan, and systemic reform.\n\nYour government's silence is deafening. Before the Monsoon Session begins on July 21, I am asking you directly: meet Sonam Wangchuk. Accept his demands for accountability in the education system. Hold your Minister accountable.\n\nDo not let your legacy be the silence that led to a tragedy.\n\nI want to remind you that in the coming years, the EVM button will be in our hands. It does not matter which party you belong to. If you remain silent and do nothing while a citizen's life hangs by a thread in Delhi, the voters of {constituency} will remember.\n\nA concerned citizen of {constituency}"
+    }
+  ]
+}

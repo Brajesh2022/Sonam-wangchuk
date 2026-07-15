@@ -53,10 +53,17 @@ h1 span { color: var(--blue); display: block; }
 }
 .appeal-box:focus-within { border-color: #a8c1f8; box-shadow: var(--shadow-lg); transform: translateY(-2px); }
 
+.search-control { position: relative; flex: 1; min-width: 0; }
 .pin-field { display: flex; align-items: center; flex: 1; min-width: 0; gap: 12px; padding-left: 14px; color: var(--muted); }
 .pin-field svg { flex: 0 0 auto; }
 .pin-field input { width: 100%; min-width: 0; border: 0; outline: 0; color: var(--ink); background: transparent; font-size: 16px; font-weight: 500; }
 .pin-field input::placeholder { color: #808ea8; font-weight: 400; }
+
+.suggestions { position: absolute; left: 0; right: 0; top: calc(100% + 10px); z-index: 20; display: grid; gap: 2px; margin: 0; padding: 6px; border: 1px solid #dbe4f2; border-radius: 12px; background: #fff; box-shadow: var(--shadow-md); list-style: none; }
+.suggestions li { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 11px 12px; border-radius: 8px; color: var(--ink); cursor: pointer; font-size: 14px; }
+.suggestions li:hover, .suggestions li:focus { background: var(--blue-light); outline: 0; }
+.suggestions strong { font-weight: 700; }
+.suggestions span { color: var(--muted); font-size: 12px; white-space: nowrap; }
 
 .location-button { 
   display: grid; place-items: center; flex: 0 0 auto; width: 42px; height: 42px; margin-right: 4px; 
@@ -200,6 +207,7 @@ footer { margin-top: 65px; border-top: 1px solid #eaedf3; background: #fdfdfe; }
   .lead { font-size: 16px; line-height: 1.5; }
   
   .appeal-box { flex-direction: column; align-items: stretch; gap: 6px; margin-top: 26px; padding: 8px; border-radius: 18px; }
+  .search-control { width: 100%; }
   .pin-field { min-height: 48px; padding-left: 10px; }
   .pin-field svg { width: 22px; height: 22px; }
   .pin-field input { font-size: 15px; }
@@ -326,6 +334,9 @@ footer { margin-top: 65px; border-top: 1px solid #eaedf3; background: #fdfdfe; }
   color: var(--ink);
   font-weight: 600;
 }
+.modal-mp-label { margin: 0 0 8px; color: var(--muted); font-size: 15px; }
+.modal-mp-label strong { color: var(--ink); }
+.modal-status { margin: 0 0 20px; color: var(--blue); font-size: 14px; font-weight: 600; }
 .modal-action-btn {
   display: block;
   width: 100%;
