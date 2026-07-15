@@ -226,7 +226,7 @@
     });
 
     const CONSTITUENCY_GEOJSON = 'https://gist.githack.com/planemad/1e2b63f6b9806970db749f19980ffd25/raw/d0b13d1b8df9c4f9b88e16de1271661ff6b64923/india_pc_2024_simplified.geojson';
-    const PINDB_URL = 'pindb.json';
+    const PINDB_URL  = 'pindb.json'; // Pre-merged: community + India Post govt source (prioritized govt coords)
 
     let constituencies = null;
     /** @type {Object.<string,[number,number,string,string]>|null} */
@@ -260,7 +260,8 @@
 
     function getName(feature) {
       const properties = feature.properties || {};
-      return properties.PC_NAME || properties.pc_name || properties.name || 'Unknown constituency';
+      const rawName = properties.PC_NAME || properties.pc_name || properties.name || 'Unknown constituency';
+      return rawName.replace(/\s*\([^)]*\)\s*$/, '').trim();
     }
 
     function getState(feature) {
@@ -321,7 +322,7 @@
         constituencies = geoData.features;
         cacheBoundingBoxes(constituencies);
 
-        // Load offline pincode database (served from same origin, gzip-compressed)
+        // Load merged pincode DB (community + India Post govt, prioritized govt coords)
         const pinResponse = await fetch(PINDB_URL);
         if (!pinResponse.ok) throw new Error('Failed to load pincode database.');
         pindb = await pinResponse.json();
@@ -367,7 +368,7 @@
           const entry = pindb[inputVal];
           if (!entry) throw new Error('PIN code not found in our database.');
 
-          // entry = [lat, lon, state, district] — O(1) offline lookup, no network call
+          // entry = [lat, lon, state, district] — O(1) offline lookup, prioritized govt source over community
           const [lat, lon] = entry;
           const match = findMatchingConstituency([lon, lat]);
           if (!match) throw new Error('No constituency boundary found for this PIN code.');
