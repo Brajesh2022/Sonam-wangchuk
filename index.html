@@ -226,8 +226,7 @@
     });
 
     const CONSTITUENCY_GEOJSON = 'https://gist.githack.com/planemad/1e2b63f6b9806970db749f19980ffd25/raw/d0b13d1b8df9c4f9b88e16de1271661ff6b64923/india_pc_2024_simplified.geojson';
-    const PINDB_URL  = 'pindb.json';
-    const GOVDB_URL  = 'govdb.json'; // Government (India Post) source — higher priority
+    const PINDB_URL  = 'pindb.json'; // Pre-merged: community + India Post govt source (averaged coords)
 
     let constituencies = null;
     /** @type {Object.<string,[number,number,string,string]>|null} */
@@ -322,34 +321,10 @@
         constituencies = geoData.features;
         cacheBoundingBoxes(constituencies);
 
-        // Load both pincode databases in parallel; govdb (government source) takes priority
-        const [pinResponse, govResponse] = await Promise.all([
-          fetch(PINDB_URL),
-          fetch(GOVDB_URL).catch(() => null),  // govdb is optional — degrade gracefully
-        ]);
+        // Load merged pincode DB (community + India Post govt, averaged coordinates)
+        const pinResponse = await fetch(PINDB_URL);
         if (!pinResponse.ok) throw new Error('Failed to load pincode database.');
-        const baseDb = await pinResponse.json();
-
-        // Merge: start with community db, then overlay government entries.
-        // Gov entry wins on conflict UNLESS its coordinates are null (NA in CSV),
-        // in which case we keep the community coordinates but still trust gov metadata.
-        let merged = { ...baseDb };
-        if (govResponse && govResponse.ok) {
-          const govDb = await govResponse.json();
-          for (const [pin, govEntry] of Object.entries(govDb)) {
-            const base = merged[pin];
-            if (!base) {
-              // New pin only in gov source — add it if it has usable coords
-              if (govEntry[0] !== null) merged[pin] = govEntry;
-            } else {
-              // Gov wins on state/district; keep best available coordinates
-              const lat = govEntry[0] !== null ? govEntry[0] : base[0];
-              const lon = govEntry[0] !== null ? govEntry[1] : base[1];
-              merged[pin] = [lat, lon, govEntry[2], govEntry[3]];
-            }
-          }
-        }
-        pindb = merged;
+        pindb = await pinResponse.json();
 
         dbResolve();
       } catch (err) {
@@ -392,7 +367,7 @@
           const entry = pindb[inputVal];
           if (!entry) throw new Error('PIN code not found in our database.');
 
-          // entry = [lat, lon, state, district] — O(1) offline lookup, dual-source (govdb priority)
+          // entry = [lat, lon, state, district] — O(1) offline lookup, averaged from govt + community sources
           const [lat, lon] = entry;
           const match = findMatchingConstituency([lon, lat]);
           if (!match) throw new Error('No constituency boundary found for this PIN code.');
