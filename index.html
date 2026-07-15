@@ -1,321 +1,589 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Electoral Constituency Finder (1995)</title>
-    <style>
-        body {
-            background-color: #ffffff;
-            color: #000000;
-            font-family: "Times New Roman", Times, serif;
-            padding: 40px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        h1 {
-            font-size: 26px;
-            margin-bottom: 5px;
-        }
-        hr {
-            border: 0;
-            border-top: 1px solid #000000;
-            margin-top: 15px;
-            margin-bottom: 15px;
-        }
-        .form-group {
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-        .result-box {
-            margin-top: 30px;
-            border: 1px solid #000000;
-            padding: 15px;
-            background-color: #fcfcfc;
-            display: none;
-        }
-        .result-item {
-            font-size: 18px;
-            margin-bottom: 8px;
-        }
-        .result-label {
-            font-weight: bold;
-        }
-        .loading {
-            color: #555555;
-            font-style: italic;
-            margin-top: 20px;
-        }
-        input[type="text"] {
-            font-family: monospace;
-            padding: 3px;
-        }
-        button {
-            padding: 2px 10px;
-            cursor: pointer;
-        }
-        .warning-box {
-            margin-top: 35px;
-            border: 1px dashed #d97706;
-            padding: 15px;
-            background-color: #fffbeb;
-            color: #b45309;
-            font-size: 16px;
-            line-height: 1.4;
-            display: none;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d46c8">
+  <title>Stand with Sonam Wangchuk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6/turf.min.js"></script>
 </head>
 <body>
-    <h1>Electoral Constituency Finder</h1>
-    <p>Version 1.0 (Released July 1995)</p>
-    <hr>
-
-    <div id="db-status" class="loading">Loading databases, please wait...</div>
-
-    <div id="main-content" style="display:none;">
-        <div class="form-group">
-            <label for="pin-input">Enter 6-Digit PIN Code: </label>
-            <input type="text" id="pin-input" size="12" maxlength="6">
-            <button id="search-btn" onclick="searchByPIN()">Find</button>
-        </div>
-
-        <div id="result" class="result-box">
-            <div class="result-item">
-                <span class="result-label">Constituency:</span> <span id="res-const"></span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">State:</span> <span id="res-state"></span>
-            </div>
-        </div>
+  <section class="hero" id="home">
+    <div class="shell">
+      <main class="hero-content">
+        <div class="eyebrow"><span>●</span> Citizen-led appeal</div>
+        <h1>Stand with <span>Sonam Wangchuk</span></h1>
+        <div class="accent"></div>
+        <p class="lead">Appeal to your MP for his demand:<br><strong>Resignation of the Education Minister.</strong></p>
         
-        <div id="warning" class="warning-box"></div>
-        <div id="error" style="color:red; display:none; margin-top:20px; font-weight:bold;"></div>
+        <form class="appeal-box" id="appeal-form">
+          <div class="pin-field">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0Z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <input id="location" aria-label="PIN code or Constituency" placeholder="Enter PIN code or Constituency" autocomplete="postal-code">
+            <button class="location-button" id="location-button" type="button" aria-label="Use my current location" title="Use my current location">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="2" y1="12" x2="5" y2="12"></line>
+                <line x1="19" y1="12" x2="22" y2="12"></line>
+                <line x1="12" y1="2" x2="12" y2="5"></line>
+                <line x1="12" y1="19" x2="12" y2="22"></line>
+                <circle cx="12" cy="12" r="7"></circle>
+                <circle cx="12" cy="12" r="2.5"></circle>
+              </svg>
+            </button>
+          </div>
+          <button class="appeal-button" type="submit">Ask your MP 
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14M13 6l6 6-6 6"/>
+            </svg>
+          </button>
+        </form>
+        <p class="privacy">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18 8h-1V6a5 5 0 0 0-10 0v2H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10a2 2 0 0 0-2-2Zm-8-2a2 2 0 1 1 4 0v2h-4V6Z"/>
+          </svg>
+          We never store your data. Used only to find your MP.
+        </p>
+      </main>
     </div>
+  </section>
 
-    <hr>
-    <p><font size="2">Copyright &copy; 1995. All rights reserved.</font></p>
+  <section class="how shell" id="how">
+    <h2 class="section-heading">How it works</h2>
+    <div class="steps">
+      <article class="step">
+        <div class="step-icon">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+          </svg>
+        </div>
+        <div class="step-number">1</div>
+        <h3>Enter</h3>
+        <p>Enter your PIN code<br>or Constituency.</p>
+      </article>
+      <div class="connector"></div>
+      <article class="step">
+        <div class="step-icon">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 7 9-7"/>
+          </svg>
+        </div>
+        <div class="step-number">2</div>
+        <h3>Review</h3>
+        <p>We find your MP and<br>prepare a personalized<br>email for you.</p>
+      </article>
+      <div class="connector"></div>
+      <article class="step">
+        <div class="step-icon">
+          <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/>
+          </svg>
+        </div>
+        <div class="step-number">3</div>
+        <h3>Send</h3>
+        <p>Review the email in your<br>app and click send.<br>That's it!</p>
+      </article>
+    </div>
+  </section>
 
-    <script>
-        let geojsonData = null;
-        let pincodeData = null;
-        const CACHE_NAME = 'constituency-finder-cache-v3';
-        const GEOM_URL = 'india_pc_2019.json';
-        const PIN_URL = 'pincodes.json';
+  <section class="shell" id="why">
+    <div class="personalized">
+      <div>
+        <div class="feature-heading">
+          <div class="feature-badge">
+            <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+          </div>
+          <h2>Personalized for<br>every MP</h2>
+        </div>
+        <p class="feature-copy">We check your MP's questions asked in Parliament and their attendance - and craft a message that's relevant, respectful, and impactful.</p>
+      </div>
+      
+      <div class="flow">
+        <article class="mini-card">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 21h18M5 21v-9h14v9M3 12h18M7 12V8l5-4 5 4v4M9 21v-5h6v5M8 9h.01M12 9h.01M16 9h.01"/>
+          </svg>
+          <strong>Parliament Data</strong>
+          <div class="checks">
+            <div><b>✓</b>Questions Asked</div>
+            <div><b>✓</b>Attendance</div>
+          </div>
+        </article>
+        <span class="flow-arrow">→</span>
+        <article class="mini-card">
+          <svg width="42" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/>
+          </svg>
+          <strong>Personalized<br>Message</strong>
+          <div class="doc-lines"><i></i><i></i><i></i></div>
+        </article>
+        <span class="flow-arrow">→</span>
+        <article class="mini-card">
+          <div class="email">
+            <svg viewBox="0 0 80 60" fill="none" aria-hidden="true">
+              <rect x="5" y="8" width="70" height="45" rx="6" fill="#eaf1ff" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+              <path d="m7 12 33 24 33-24" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round"/>
+            </svg>
+            <span class="check-mark">✓</span>
+          </div>
+          <strong>Email ready<br>to send</strong>
+        </article>
+      </div>
+    </div>
+    
+    <div class="closing" id="about">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M20.8 4.8a5.5 5.5 0 0 0-7.8 0L12 6l-1.1-1.2a5.5 5.5 0 0 0-7.8 7.8L12 21l8.9-8.4a5.5 5.5 0 0 0-.1-7.8Z"/>
+      </svg>
+      <span>Every email counts. Every voice matters.</span>
+    </div>
+  </section>
 
-        // Load databases using Cache API on startup
-        window.onload = function() {
-            const dbStatus = document.getElementById('db-status');
-            const mainContent = document.getElementById('main-content');
+  <footer id="faq">
+    <div class="shell footer-inner">
+      <p class="footer-message"><strong>Your voice today.</strong> A better tomorrow.</p>
+      <div class="footer-links">
+        <a href="#why">Why This Matters</a>
+        <a href="#how">How It Works</a>
+        <a href="#about">About</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="socials">
+        <a href="#home" aria-label="Twitter">𝕏</a>
+        <a href="#home" aria-label="Instagram">◎</a>
+        <a href="#home" aria-label="GitHub">◉</a>
+      </div>
+    </div>
+    <div class="bar">Your voice today. A better tomorrow.</div>
+  </footer>
+  
+  <div class="toast" id="toast" role="status"></div>
 
-            if ('caches' in window) {
-                caches.open(CACHE_NAME).then(cache => {
-                    Promise.all([
-                        cache.match(GEOM_URL),
-                        cache.match(PIN_URL)
-                    ]).then(([cachedGeom, cachedPin]) => {
-                        if (cachedGeom && cachedPin) {
-                            dbStatus.innerHTML = "Loading databases from local cache...";
-                            Promise.all([
-                                cachedGeom.json(),
-                                cachedPin.json()
-                            ]).then(([geomData, pinData]) => {
-                                geojsonData = geomData;
-                                pincodeData = pinData;
-                                dbStatus.style.display = 'none';
-                                mainContent.style.display = 'block';
-                            }).catch(err => {
-                                dbStatus.innerHTML = "Cache corrupted. Re-fetching databases...";
-                                fetchFreshDatabases(cache);
-                            });
-                        } else {
-                            dbStatus.innerHTML = "Fetching databases from server (approx. 3MB)...";
-                            fetchFreshDatabases(cache);
-                        }
-                    });
-                }).catch(err => {
-                    fetchNoCache();
-                });
-            } else {
-                fetchNoCache();
+  <!-- Modal for Results -->
+  <div id="result-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <button class="modal-close" id="modal-close-btn" aria-label="Close modal">&times;</button>
+      <div class="modal-body">
+        <div class="modal-eyebrow">Constituency Found</div>
+        <h2 id="modal-constituency">-</h2>
+        <p class="modal-state-label">State/UT: <span id="modal-state">-</span></p>
+        <button class="modal-action-btn" id="modal-action-btn">Ask your MP</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.querySelector('#appeal-form');
+    const field = document.querySelector('#location');
+    const locationButton = document.querySelector('#location-button');
+    const toast = document.querySelector('#toast');
+    let toastTimer;
+
+    const modal = document.querySelector('#result-modal');
+    const modalConstituency = document.querySelector('#modal-constituency');
+    const modalState = document.querySelector('#modal-state');
+    const modalCloseBtn = document.querySelector('#modal-close-btn');
+    const modalActionBtn = document.querySelector('#modal-action-btn');
+    
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add('show');
+      window.clearTimeout(toastTimer);
+      toastTimer = window.setTimeout(() => toast.classList.remove('show'), 3200);
+    }
+
+    function openModal(constituency, state) {
+      modalConstituency.textContent = constituency;
+      modalState.textContent = state;
+      modal.classList.add('show');
+      modal.style.display = 'flex';
+    }
+
+    function closeModal() {
+      modal.classList.remove('show');
+      setTimeout(() => {
+        if (!modal.classList.contains('show')) {
+          modal.style.display = 'none';
+        }
+      }, 300);
+    }
+
+    modalCloseBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+    modalActionBtn.addEventListener('click', () => {
+      closeModal();
+      showToast("Preparing appeal to " + modalConstituency.textContent + " MP...");
+    });
+
+    const PIN_API = 'https://aniket-thapa.github.io/india-pincode-api';
+    const CONSTITUENCY_GEOJSON = 'https://gist.githack.com/planemad/1e2b63f6b9806970db749f19980ffd25/raw/d0b13d1b8df9c4f9b88e16de1271661ff6b64923/india_pc_2024_simplified.geojson';
+    const OSM_SEARCH = 'https://photon.komoot.io/api/';
+    const GEOCODE_CONCURRENCY = 6;
+
+    let constituencies = null;
+    let dbResolve;
+    const dbPromise = new Promise(resolve => { dbResolve = resolve; });
+
+    // Fast Spatial Bounding Box Cacher
+    function cacheBoundingBoxes(features) {
+      features.forEach(feature => {
+        feature.bbox = turf.bbox(feature);
+      });
+    }
+
+    function isPointInBBox(pointCoords, bbox) {
+      return pointCoords[0] >= bbox[0] && 
+             pointCoords[1] >= bbox[1] && 
+             pointCoords[0] <= bbox[2] && 
+             pointCoords[1] <= bbox[3];
+    }
+
+    function findMatchingConstituency(pointCoords) {
+      if (!constituencies) return null;
+      const point = turf.point(pointCoords);
+      const candidates = constituencies.filter(feature => {
+        if (!feature.bbox) return true;
+        return isPointInBBox(pointCoords, feature.bbox);
+      });
+      return candidates.find(feature => turf.booleanPointInPolygon(point, feature));
+    }
+
+    function getName(feature) {
+      const properties = feature.properties || {};
+      return properties.PC_NAME || properties.pc_name || properties.name || 'Unknown constituency';
+    }
+
+    function getState(feature) {
+      const properties = feature.properties || {};
+      return properties.ST_NAME || properties.st_name || properties.state || properties.STATE || '';
+    }
+
+    function mappedPoint(office) {
+      const latitude = Number(office.latitude);
+      const longitude = Number(office.longitude);
+      if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return null;
+      if (Math.abs(latitude) > 90 || Math.abs(longitude) > 180) return null;
+      return [longitude, latitude];
+    }
+
+    function coordinateKey(office) {
+      const coords = mappedPoint(office);
+      return coords ? coords.join(',') : null;
+    }
+
+    function normalizeText(value) {
+      return String(value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    }
+
+    function statesMatch(s1, s2) {
+      const n1 = normalizeText(s1);
+      const n2 = normalizeText(s2);
+      if (n1 === n2) return true;
+      const simplify = (str) => {
+        return str
+          .replace(/and/g, '')
+          .replace(/nctof/g, '')
+          .replace(/nationalcapitalterritoryof/g, '')
+          .replace(/unionterritoryof/g, '')
+          .replace(/ut/g, '')
+          .replace(/[^a-z0-9]/g, '');
+      };
+      const sim1 = simplify(n1);
+      const sim2 = simplify(n2);
+      return sim1 === sim2 || sim1.includes(sim2) || sim2.includes(sim1);
+    }
+
+    function officeLocality(officeName) {
+      return String(officeName || '')
+        .replace(/\s+(?:B\.?O\.?|S\.?O\.?|H\.?O\.?)\s*$/i, '')
+        .trim();
+    }
+
+    function matchingLiveFeature(features, locality, district, state) {
+      const expectedLocality = normalizeText(locality);
+      const expectedDistrict = normalizeText(district);
+      const expectedState = normalizeText(state);
+
+      return features.find((feature) => {
+        const properties = feature.properties || {};
+        const featureState = normalizeText(properties.state);
+        const featureDistrict = normalizeText(properties.county || properties.district);
+        const localities = [properties.name, properties.city, properties.locality].map(normalizeText);
+
+        return featureState === expectedState &&
+          featureDistrict === expectedDistrict &&
+          localities.includes(expectedLocality);
+      });
+    }
+
+    async function geocodeOffice(office, pinData) {
+      const locality = officeLocality(office.officeName);
+      const cacheKey = `pin-constituency-geocode:${locality}|${pinData.pincode}|${pinData.district}|${pinData.state}`;
+      const cached = sessionStorage.getItem(cacheKey);
+
+      if (cached) return JSON.parse(cached);
+
+      const query = `${locality}, ${pinData.pincode}, ${pinData.district}, ${pinData.state}, India`;
+      const url = `${OSM_SEARCH}?q=${encodeURIComponent(query)}&limit=5`;
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Live lookup error.');
+
+      const data = await response.json();
+      const feature = matchingLiveFeature(data.features || [], locality, pinData.district, pinData.state);
+      const outcome = feature
+        ? { coordinate: feature.geometry.coordinates }
+        : { coordinate: null };
+
+      sessionStorage.setItem(cacheKey, JSON.stringify(outcome));
+      return outcome;
+    }
+
+    async function mapWithConcurrency(items, limit, worker, progressCallback) {
+      const output = new Array(items.length);
+      let nextIndex = 0;
+      let completed = 0;
+
+      async function run() {
+        while (nextIndex < items.length) {
+          const index = nextIndex++;
+          output[index] = await worker(items[index]);
+          completed++;
+          progressCallback(completed, items.length);
+        }
+      }
+
+      await Promise.all(Array.from({ length: Math.min(limit, items.length) }, run));
+      return output;
+    }
+
+    let isSearching = false;
+
+    field.addEventListener('input', (e) => {
+      if (/^\d+$/.test(field.value)) {
+        if (field.value.length > 6) {
+          field.value = field.value.slice(0, 6);
+        }
+        if (field.value.length === 6) {
+          runSearch();
+        }
+      }
+    });
+
+    async function initPreload() {
+      const url = CONSTITUENCY_GEOJSON;
+      try {
+        let response = null;
+        if ('caches' in window) {
+          try {
+            const cache = await caches.open('constituency-cache-v2');
+            response = await cache.match(url);
+            if (!response) {
+              await cache.add(url);
+              response = await cache.match(url);
             }
-        };
-
-        function fetchFreshDatabases(cache) {
-            Promise.all([
-                fetch(GEOM_URL).then(res => {
-                    if (!res.ok) throw new Error();
-                    cache.put(GEOM_URL, res.clone());
-                    return res.json();
-                }),
-                fetch(PIN_URL).then(res => {
-                    if (!res.ok) throw new Error();
-                    cache.put(PIN_URL, res.clone());
-                    return res.json();
-                })
-            ]).then(([geomData, pinData]) => {
-                geojsonData = geomData;
-                pincodeData = pinData;
-                document.getElementById('db-status').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-            }).catch(err => {
-                document.getElementById('db-status').innerHTML = "Error: Databases could not be loaded from server.";
-                document.getElementById('db-status').style.color = "red";
-            });
+          } catch (cacheErr) {
+            console.warn('Cache API fallback:', cacheErr);
+          }
         }
 
-        function fetchNoCache() {
-            const dbStatus = document.getElementById('db-status');
-            dbStatus.innerHTML = "Loading databases (no caching)...";
-            Promise.all([
-                fetch(GEOM_URL).then(res => res.json()),
-                fetch(PIN_URL).then(res => res.json())
-            ]).then(([geomData, pinData]) => {
-                geojsonData = geomData;
-                pincodeData = pinData;
-                dbStatus.style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-            }).catch(err => {
-                dbStatus.innerHTML = "Error: Databases could not be loaded.";
-                dbStatus.style.color = "red";
-            });
+        if (!response) {
+          response = await fetch(url);
         }
 
-        function searchByPIN() {
-            const pin = document.getElementById('pin-input').value.trim();
-            const errorDiv = document.getElementById('error');
-            const resultDiv = document.getElementById('result');
-            const warningDiv = document.getElementById('warning');
+        if (!response.ok) throw new Error('Network error loading map.');
+        const data = await response.json();
+        constituencies = data.features;
+        cacheBoundingBoxes(constituencies);
+        dbResolve();
+      } catch (err) {
+        console.error('Error preloading boundaries:', err);
+        dbResolve();
+      }
+    }
+
+    window.addEventListener('load', function() {
+        initPreload();
+    });
+
+    async function runSearch() {
+      if (isSearching) return;
+
+      const inputVal = field.value.trim();
+      if (!inputVal) {
+        showToast('Enter your PIN code or constituency to begin.');
+        field.focus();
+        return;
+      }
+
+      isSearching = true;
+      const appealBtn = document.querySelector('.appeal-button');
+      const originalContent = appealBtn.innerHTML;
+      appealBtn.disabled = true;
+      appealBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin-pulse 1.5s linear infinite;"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="4.93" x2="19.07" y2="7.76"></line></svg> Loading...';
+
+      try {
+        if (!constituencies) {
+          await dbPromise;
+          if (!constituencies) {
+            throw new Error("Could not load boundary map. Please check your connection.");
+          }
+        }
+
+        // Check if it is a 6-digit PIN code
+        if (/^\d{6}$/.test(inputVal)) {
+          const pinResponse = await fetch(`${PIN_API}/pincodes/${inputVal}.json`);
+          if (!pinResponse.ok) throw new Error('PIN code not found.');
+          const pinData = await pinResponse.json();
+          const offices = pinData.offices || [];
+          
+          if (!offices.length) {
+            throw new Error('No post offices found for this PIN.');
+          }
+
+          const coordinateCounts = new Map();
+          offices.forEach((office) => {
+            const key = coordinateKey(office);
+            if (key) coordinateCounts.set(key, (coordinateCounts.get(key) || 0) + 1);
+          });
+
+          const liveResults = await mapWithConcurrency(
+            offices, 
+            GEOCODE_CONCURRENCY, 
+            async (office) => {
+              try {
+                return await geocodeOffice(office, pinData);
+              } catch {
+                return { coordinate: null };
+              }
+            },
+            (completed, total) => {
+              appealBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin-pulse 1.5s linear infinite;"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="4.93" x2="19.07" y2="7.76"></line></svg> Mapping (' + completed + '/' + total + ')...';
+            }
+          );
+
+          const counts = new Map();
+          let usableOfficeCount = 0;
+
+          for (const [index, office] of offices.entries()) {
+            const liveResult = liveResults[index];
+            const rawKey = coordinateKey(office);
+            const rawIsShared = rawKey && coordinateCounts.get(rawKey) > 1;
+            const coordinate = liveResult.coordinate || (!rawIsShared && mappedPoint(office));
+
+            if (!coordinate) continue;
+
+            const match = findMatchingConstituency(coordinate);
+            if (!match) continue;
+
+            const matchState = getState(match);
+            if (!statesMatch(matchState, pinData.state)) {
+              continue;
+            }
+
+            usableOfficeCount += 1;
+            const name = getName(match);
+            const state = matchState;
+            const key = `${name}\u0000${state}`;
+            const entry = counts.get(key) || { name, state, offices: [] };
             
-            errorDiv.style.display = 'none';
-            resultDiv.style.display = 'none';
-            warningDiv.style.display = 'none';
+            entry.offices.push(office.officeName);
+            counts.set(key, entry);
+          }
 
-            if (!/^\d{6}$/.test(pin)) {
-                errorDiv.innerHTML = "Error: Please enter a valid 6-digit PIN code.";
-                errorDiv.style.display = 'block';
-                return;
-            }
+          if (!usableOfficeCount) {
+            throw new Error('No matchable location data available for this PIN.');
+          }
 
-            if (!pincodeData || !geojsonData) {
-                errorDiv.innerHTML = "Error: Databases not fully loaded yet.";
-                errorDiv.style.display = 'block';
-                return;
-            }
+          const ranking = [...counts.values()].sort((a, b) => b.offices.length - a.offices.length || a.name.localeCompare(b.name));
+          
+          if (!ranking.length) {
+            throw new Error('No constituency boundary matches found for this location.');
+          }
 
-            // Look up PIN code locally (100% offline, no external API call!)
-            const record = pincodeData[pin];
-            if (!record) {
-                errorDiv.innerHTML = "Error: PIN Code not found in the local database.";
-                errorDiv.style.display = 'block';
-                return;
-            }
-
-            // Extract values: [lat, lon, district, state]
-            const lat = record[0];
-            const lon = record[1];
-            const apiDistrict = record[2] ? record[2].trim().toUpperCase() : "";
-            const apiState = record[3] ? record[3].trim() : "";
-
-            // Run Point-in-Polygon check
-            const feat = findConstituencyFeature(lat, lon);
-            
-            if (feat) {
-                const props = feat.properties;
-                
-                // Disambiguation / Verification with District Name
-                if (props.pc_name.toUpperCase() === apiDistrict || 
-                    apiDistrict.includes(props.pc_name.toUpperCase()) || 
-                    props.pc_name.toUpperCase().includes(apiDistrict)) {
-                    showResult(props.pc_name, props.st_name);
-                } else {
-                    // Coordinates matched a boundary, but didn't match the district (possible overlap or error)
-                    showResult(props.pc_name, props.st_name);
-                }
-            } else {
-                // Resolved coordinates fell outside boundaries. Show warning.
-                showManualWarning(pin, apiDistrict, apiState);
-            }
+          const percentage = Math.round((ranking[0].offices.length / usableOfficeCount) * 100);
+          if (percentage > 60) {
+            openModal(ranking[0].name, ranking[0].state);
+          } else {
+            throw new Error('No constituency matched with >60% confidence.');
+          }
+        } else {
+          // Search by constituency name
+          const query = inputVal.toLowerCase();
+          const feat = constituencies.find(f => {
+            const pcName = getName(f).toLowerCase();
+            return pcName === query || pcName.includes(query);
+          });
+          if (feat) {
+            openModal(getName(feat), getState(feat));
+          } else {
+            throw new Error("Constituency not found. Try a 6-digit PIN code instead.");
+          }
         }
+      } catch (error) {
+        showToast(error.message || 'Lookup failed.');
+      } finally {
+        appealBtn.innerHTML = originalContent;
+        appealBtn.disabled = false;
+        isSearching = false;
+      }
+    }
 
-        function showManualWarning(pin, district, state) {
-            const warningDiv = document.getElementById('warning');
-            let msg = `<strong>Constituency could not be determined automatically for PIN code ${pin}.</strong><br><br>`;
-            if (district && state) {
-                msg += `The database registers this PIN code under the administrative district of <strong>${toTitleCase(district)} (${toTitleCase(state)})</strong>. `;
-                msg += `However, because postal directories and Lok Sabha electoral boundaries do not always align perfectly (and because coordinate entries may be missing or inaccurate), please verify your exact constituency manually on the official Election Commission of India portal.`;
-            } else {
-                msg += `No coordinates are available for the post offices in this PIN code. Please look up your constituency manually.`;
-            }
-            warningDiv.innerHTML = msg;
-            warningDiv.style.display = 'block';
-        }
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      await runSearch();
+    });
 
-        function toTitleCase(str) {
-            return str.replace(/\w\S*/g, function(txt) {
-                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
-            });
+    locationButton.addEventListener('click', async () => {
+      if (!navigator.geolocation) {
+        showToast('GPS is not supported by this browser.');
+        return;
+      }
+      
+      if (!constituencies) {
+        locationButton.disabled = true;
+        locationButton.setAttribute('aria-busy', 'true');
+        await dbPromise;
+        if (!constituencies) {
+          locationButton.disabled = false;
+          locationButton.removeAttribute('aria-busy');
+          showToast("Database could not be loaded. Please refresh the page.");
+          return;
         }
+      }
 
-        function showResult(constituency, state) {
-            document.getElementById('res-const').innerHTML = constituency;
-            document.getElementById('res-state').innerHTML = state;
-            document.getElementById('result').style.display = 'block';
-        }
+      locationButton.disabled = true;
+      locationButton.setAttribute('aria-busy', 'true');
+      showToast('Requesting your location...');
+      
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        locationButton.disabled = false;
+        locationButton.removeAttribute('aria-busy');
 
-        // --- Point in Polygon Engine (Ray-casting) ---
-        function pointInRing(x, y, ring) {
-            let inside = false;
-            const n = ring.length;
-            if (n < 3) return false;
-            let p1x = ring[0][0], p1y = ring[0][1];
-            for (let i = 0; i <= n; i++) {
-                const p2 = ring[i % n];
-                const p2x = p2[0], p2y = p2[1];
-                if (y > Math.min(p1y, p2y)) {
-                    if (y <= Math.max(p1y, p2y)) {
-                        if (x <= Math.max(p1x, p2x)) {
-                            let xinters = p1y !== p2y ? (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x : p1x;
-                            if (p1x === p2x || x <= xinters) {
-                                inside = !inside;
-                            }
-                        }
-                    }
-                }
-                p1x = p2x;
-                p1y = p2y;
-            }
-            return inside;
+        const feat = findMatchingConstituency([longitude, latitude]);
+        if (feat) {
+          field.value = getName(feat);
+          openModal(getName(feat), getState(feat));
+        } else {
+          showToast('No constituency found for your location (you may be outside India).');
         }
-
-        function pointInPolygon(x, y, poly) {
-            if (!pointInRing(x, y, poly[0])) return false;
-            for (let i = 1; i < poly.length; i++) {
-                if (pointInRing(x, y, poly[i])) return false;
-            }
-            return true;
-        }
-
-        function pointInMultiPolygon(x, y, multipoly) {
-            for (let i = 0; i < multipoly.length; i++) {
-                if (pointInPolygon(x, y, multipoly[i])) return true;
-            }
-            return false;
-        }
-
-        function findConstituencyFeature(lat, lon) {
-            if (!geojsonData) return null;
-            const x = lon;
-            const y = lat;
-            for (const feature of geojsonData.features) {
-                const geom = feature.geometry;
-                if (geom.type === 'Polygon') {
-                    if (pointInPolygon(x, y, geom.coordinates)) return feature;
-                } else if (geom.type === 'MultiPolygon') {
-                    if (pointInMultiPolygon(x, y, geom.coordinates)) return feature;
-                }
-            }
-            return null;
-        }
-    </script>
+      }, () => {
+        locationButton.disabled = false;
+        locationButton.removeAttribute('aria-busy');
+        showToast('Location access was not available.');
+      }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 300000 });
+    });
+  </script>
 </body>
 </html>
+
