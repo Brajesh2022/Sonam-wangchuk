@@ -148,7 +148,7 @@ footer { margin-top: 65px; border-top: 1px solid #eaedf3; background: #fdfdfe; }
 .bar { padding: 20px; color: #fff; background: var(--ink); text-align: center; font-weight: 600; letter-spacing: 0.02em; font-size: 14px; }
 
 /* Toast */
-.toast { position: fixed; left: 50%; bottom: 30px; z-index: 50; padding: 14px 22px; border-radius: 12px; color: #fff; background: #172039; box-shadow: 0 10px 30px rgba(0,0,0,.25); font-weight: 500; font-size: 15px; opacity: 0; transform: translate(-50%, 20px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none; }
+.toast { position: fixed; left: 50%; top: 30px; z-index: 50; padding: 14px 22px; border-radius: 12px; color: #fff; background: #172039; box-shadow: 0 10px 30px rgba(0,0,0,.25); font-weight: 500; font-size: 15px; opacity: 0; transform: translate(-50%, -20px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none; }
 .toast.show { opacity: 1; transform: translate(-50%, 0); }
 
 /* Animations */

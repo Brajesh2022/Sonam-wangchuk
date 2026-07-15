@@ -226,9 +226,17 @@
 
     let geojsonData = null;
     let pincodeData = null;
+    let dbResolve;
+    const dbPromise = new Promise(resolve => { dbResolve = resolve; });
     const CACHE_NAME = 'constituency-finder-cache-v3';
     const GEOM_URL = 'india_pc_2019.json';
     const PIN_URL = 'pincodes.json';
+
+    field.addEventListener('input', (e) => {
+      if (/^\d+$/.test(field.value) && field.value.length > 6) {
+        field.value = field.value.slice(0, 6);
+      }
+    });
 
     // Load databases using Cache API on startup
     window.addEventListener('load', function() {
@@ -249,6 +257,7 @@
                         ]).then(([geomData, pinData]) => {
                             geojsonData = geomData;
                             pincodeData = pinData;
+                            dbResolve();
                         }).catch(err => {
                             fetchFreshDatabases(cache);
                         });
@@ -279,8 +288,10 @@
         ]).then(([geomData, pinData]) => {
             geojsonData = geomData;
             pincodeData = pinData;
+            dbResolve();
         }).catch(err => {
             console.error("Error loading databases from server:", err);
+            dbResolve(); // resolve anyway to avoid hanging
         });
     }
 
@@ -291,8 +302,10 @@
         ]).then(([geomData, pinData]) => {
             geojsonData = geomData;
             pincodeData = pinData;
+            dbResolve();
         }).catch(err => {
             console.error("Error loading databases:", err);
+            dbResolve(); // resolve anyway to avoid hanging
         });
     }
 
@@ -351,7 +364,7 @@
         return null;
     }
 
-    form.addEventListener('submit', (event) => {
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
       const inputVal = field.value.trim();
       if (!inputVal) {
@@ -361,8 +374,17 @@
       }
 
       if (!geojsonData || !pincodeData) {
-        showToast("Database is loading. Please try again in a few seconds.");
-        return;
+        const appealBtn = document.querySelector('.appeal-button');
+        const originalContent = appealBtn.innerHTML;
+        appealBtn.disabled = true;
+        appealBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin-pulse 1.5s linear infinite;"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="4.93" x2="19.07" y2="7.76"></line></svg> Loading...';
+        await dbPromise;
+        appealBtn.innerHTML = originalContent;
+        appealBtn.disabled = false;
+        if (!geojsonData || !pincodeData) {
+          showToast("Database could not be loaded. Please refresh the page.");
+          return;
+        }
       }
 
       // Check if it is a 6-digit PIN code
@@ -395,14 +417,22 @@
       }
     });
     
-    locationButton.addEventListener('click', () => {
+    locationButton.addEventListener('click', async () => {
       if (!navigator.geolocation) {
         showToast('GPS is not supported by this browser.');
         return;
       }
+      
       if (!geojsonData) {
-        showToast("Database is loading. Please try again in a few seconds.");
-        return;
+        locationButton.disabled = true;
+        locationButton.setAttribute('aria-busy', 'true');
+        await dbPromise;
+        if (!geojsonData) {
+          locationButton.disabled = false;
+          locationButton.removeAttribute('aria-busy');
+          showToast("Database could not be loaded. Please refresh the page.");
+          return;
+        }
       }
 
       locationButton.disabled = true;
