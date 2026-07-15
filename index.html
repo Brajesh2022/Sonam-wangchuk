@@ -260,7 +260,8 @@
 
     function getName(feature) {
       const properties = feature.properties || {};
-      return properties.PC_NAME || properties.pc_name || properties.name || 'Unknown constituency';
+      const rawName = properties.PC_NAME || properties.pc_name || properties.name || 'Unknown constituency';
+      return rawName.replace(/\s*\([^)]*\)\s*$/, '').trim();
     }
 
     function getState(feature) {
