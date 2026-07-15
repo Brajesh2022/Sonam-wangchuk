@@ -49,11 +49,16 @@ function setPreparedEmail(email) {
   emailPreview.open = false;
 }
 
+function setModalStatus(message) {
+  modalStatus.textContent = message;
+  modalStatus.hidden = !message;
+}
+
 function openModal(constituency, state, mp, status, email) {
   modalConstituency.textContent = constituency;
   modalState.textContent = state || 'Not available';
   modalMp.textContent = mp.mp_name;
-  modalStatus.textContent = status;
+  setModalStatus(status);
   setPreparedEmail(email);
   modalActionBtn.disabled = false;
   modal.classList.add('show');
@@ -310,7 +315,7 @@ function clearMailtoWatch() {
 function handleMailtoFailure() {
   clearMailtoWatch();
   emailPreview.open = true;
-  modalStatus.textContent = 'Mail app not found or could not be opened. Copy the email below instead.';
+  setModalStatus('Mail app not found or could not be opened. Copy the email below instead.');
   showToast('Mail app not found or failed to open. Copy the email below.');
   emailPreview.scrollIntoView({ block: 'nearest' });
 }
@@ -318,13 +323,13 @@ function handleMailtoFailure() {
 function openMailClient(mp, email = preparedEmail) {
   if (!mp || !email) return;
   if (!email.recipients.length) {
-    modalStatus.textContent = 'No email address is available for this MP.';
+    setModalStatus('No email address is available for this MP.');
     emailPreview.open = true;
     showToast('No email address is available for this MP.');
     return;
   }
   clearMailtoWatch();
-  modalStatus.textContent = 'Opening your email app...';
+  setModalStatus('Opening your email app...');
   const onLeave = () => clearMailtoWatch();
   const onVisibility = () => {
     if (document.visibilityState === 'hidden') clearMailtoWatch();
@@ -345,8 +350,7 @@ async function resolveConstituency(constituency, state, autoOpen = true) {
   selectedMp = mp;
   field.value = mp.constituency;
   const email = prepareEmail(mp);
-  openModal(mp.constituency, state || mp.state, mp,
-    autoOpen ? 'Opening your email app...' : 'Review the prepared email, then open your email app.', email);
+  openModal(mp.constituency, state || mp.state, mp, autoOpen ? 'Opening your email app...' : '', email);
   if (autoOpen) openMailClient(mp, email);
 }
 

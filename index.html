@@ -178,28 +178,34 @@
         <h2 id="modal-constituency">-</h2>
         <p class="modal-state-label">State/UT: <span id="modal-state">-</span></p>
         <p class="modal-mp-label">Emailing: <strong id="modal-mp">-</strong></p>
-        <p class="modal-status" id="modal-status">Review the prepared email, then open your email app.</p>
+        <p class="modal-status" id="modal-status" role="status" aria-live="polite" hidden></p>
         <details class="email-preview" id="email-preview">
-          <summary>Show prepared email</summary>
+          <summary>Email details</summary>
           <div class="email-fields">
             <label for="email-to">To</label>
             <div class="email-copy-row">
               <input id="email-to" type="text" readonly>
-              <button class="copy-button" type="button" data-copy-target="email-to">Copy</button>
+              <button class="copy-button" type="button" data-copy-target="email-to" aria-label="Copy recipients" title="Copy recipients">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
             </div>
             <label for="email-subject">Subject</label>
             <div class="email-copy-row">
               <input id="email-subject" type="text" readonly>
-              <button class="copy-button" type="button" data-copy-target="email-subject">Copy</button>
+              <button class="copy-button" type="button" data-copy-target="email-subject" aria-label="Copy subject" title="Copy subject">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
             </div>
             <label for="email-body">Body</label>
             <div class="email-copy-row email-body-row">
               <textarea id="email-body" rows="10" readonly></textarea>
-              <button class="copy-button" type="button" data-copy-target="email-body">Copy</button>
+              <button class="copy-button" type="button" data-copy-target="email-body" aria-label="Copy email body" title="Copy email body">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
             </div>
           </div>
         </details>
-        <button class="modal-action-btn" id="modal-action-btn">Open email app</button>
+        <button class="modal-action-btn" id="modal-action-btn"><span>Open email app</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
     </div>
   </div>

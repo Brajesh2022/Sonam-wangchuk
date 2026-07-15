@@ -28,10 +28,10 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--blue); outline-
 
 .shell { width: min(1180px, calc(100% - 64px)); margin: auto; }
 
-/* Hero Section - Background settings kept EXACTLY as requested */
+/* Hero Section - background and overlay share the hero bounds */
 .hero { min-height: 536px; position: relative; z-index: 5; isolation: isolate; overflow: visible; background: #eaf2fd; }
-.hero::before { content: ""; position: absolute; inset: -3px; z-index: -2; background-image: url("https://i.postimg.cc/DF7ggPvr/sonam-sir.jpg"); background-size: cover; background-position: center 42%; transform: scale(1.02); }
-.hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(255,255,255,.99) 0%, rgba(255,255,255,.93) 35%, rgba(255,255,255,.24) 54%, rgba(255,255,255,0) 70%); }
+.hero::before { content: ""; position: absolute; inset: 0; z-index: -2; background-image: url("https://i.postimg.cc/DF7ggPvr/sonam-sir.jpg"); background-size: cover; background-position: center 42%; }
+.hero::after { content: ""; position: absolute; inset: 0; height: 100%; z-index: -1; background: linear-gradient(90deg, rgba(255,255,255,.99) 0%, rgba(255,255,255,.93) 35%, rgba(255,255,255,.24) 54%, rgba(255,255,255,0) 70%); }
 
 .hero-content { padding: 55px 0 46px; width: min(660px, 62%); }
 .eyebrow { display: flex; align-items: center; gap: 8px; color: var(--blue); font-size: 13.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
@@ -340,17 +340,20 @@ footer { margin-top: 65px; border-top: 1px solid #eaedf3; background: #fdfdfe; }
 .modal-mp-label { margin: 0 0 8px; color: var(--muted); font-size: 15px; }
 .modal-mp-label strong { color: var(--ink); }
 .modal-status { margin: 0 0 20px; color: var(--blue); font-size: 14px; font-weight: 600; }
-.email-preview { margin: 0 0 20px; border: 1px solid var(--line); border-radius: 12px; background: var(--pale); }
-.email-preview summary { padding: 12px 14px; color: var(--blue); cursor: pointer; font-size: 14px; font-weight: 700; }
+.email-preview { margin: 0 0 18px; border: 1px solid var(--line); border-radius: 12px; background: #fbfcff; }
+.email-preview summary { padding: 11px 14px; color: var(--muted); cursor: pointer; font-size: 13px; font-weight: 600; }
 .email-fields { display: grid; gap: 7px; padding: 0 12px 12px; }
 .email-fields label { color: var(--muted); font-size: 12px; font-weight: 700; }
-.email-copy-row { display: flex; align-items: stretch; gap: 6px; min-width: 0; }
-.email-copy-row input, .email-copy-row textarea { width: 100%; min-width: 0; border: 1px solid var(--line); border-radius: 8px; padding: 9px 10px; color: var(--ink); background: #fff; font-size: 13px; }
+.email-copy-row { position: relative; min-width: 0; }
+.email-copy-row input, .email-copy-row textarea { width: 100%; min-width: 0; border: 1px solid var(--line); border-radius: 8px; padding: 9px 42px 9px 10px; color: var(--ink); background: #fff; font-size: 13px; }
 .email-copy-row textarea { min-height: 170px; resize: vertical; line-height: 1.45; }
-.copy-button { flex: 0 0 auto; align-self: flex-start; border: 1px solid #c4d3ef; border-radius: 8px; padding: 9px 10px; color: var(--blue); background: #fff; font-size: 12px; font-weight: 700; }
+.copy-button { position: absolute; top: 5px; right: 5px; display: grid; place-items: center; width: 30px; height: 30px; padding: 0; border: 0; border-radius: 7px; color: var(--muted); background: transparent; }
 .copy-button:hover { background: var(--blue-light); }
 .modal-action-btn {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   width: 100%;
   border: 0;
   border-radius: 12px;
