@@ -237,6 +237,7 @@ window.addEventListener('load', initPreload);
 
 function findMp(constituency, state) {
   const normalized = normalizeText(constituency);
+  if (!normalized) return null;
   const normalizedState = normalizeText(state);
   const matches = mpRecords.filter(mp => normalizeText(mp.constituency) === normalized ||
     normalizeText(mp.constituency).includes(normalized));
