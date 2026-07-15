@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Electoral Constituency Finder (1995)</title>
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #000000;
+            font-family: "Times New Roman", Times, serif;
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        h1 {
+            font-size: 26px;
+            margin-bottom: 5px;
+        }
+        hr {
+            border: 0;
+            border-top: 1px solid #000000;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .result-box {
+            margin-top: 30px;
+            border: 1px solid #000000;
+            padding: 15px;
+            background-color: #fcfcfc;
+            display: none;
+        }
+        .result-item {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+        .result-label {
+            font-weight: bold;
+        }
+        .loading {
+            color: #555555;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        input[type="text"] {
+            font-family: monospace;
+            padding: 3px;
+        }
+        button {
+            padding: 2px 10px;
+            cursor: pointer;
+        }
+        .warning-box {
+            margin-top: 35px;
+            border: 1px dashed #d97706;
+            padding: 15px;
+            background-color: #fffbeb;
+            color: #b45309;
+            font-size: 16px;
+            line-height: 1.4;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Electoral Constituency Finder</h1>
+    <p>Version 1.0 (Released July 1995)</p>
+    <hr>
+
+    <div id="db-status" class="loading">Loading databases, please wait...</div>
+
+    <div id="main-content" style="display:none;">
+        <div class="form-group">
+            <label for="pin-input">Enter 6-Digit PIN Code: </label>
+            <input type="text" id="pin-input" size="12" maxlength="6">
+            <button id="search-btn" onclick="searchByPIN()">Find</button>
+        </div>
+
+        <div id="result" class="result-box">
+            <div class="result-item">
+                <span class="result-label">Constituency:</span> <span id="res-const"></span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">State:</span> <span id="res-state"></span>
+            </div>
+        </div>
+        
+        <div id="warning" class="warning-box"></div>
+        <div id="error" style="color:red; display:none; margin-top:20px; font-weight:bold;"></div>
+    </div>
+
+    <hr>
+    <p><font size="2">Copyright &copy; 1995. All rights reserved.</font></p>
+
+    <script>
+        let geojsonData = null;
+        let pincodeData = null;
+        const CACHE_NAME = 'constituency-finder-cache-v3';
+        const GEOM_URL = 'india_pc_2019.json';
+        const PIN_URL = 'pincodes.json';
+
+        // Load databases using Cache API on startup
+        window.onload = function() {
+            const dbStatus = document.getElementById('db-status');
+            const mainContent = document.getElementById('main-content');
+
+            if ('caches' in window) {
+                caches.open(CACHE_NAME).then(cache => {
+                    Promise.all([
+                        cache.match(GEOM_URL),
+                        cache.match(PIN_URL)
+                    ]).then(([cachedGeom, cachedPin]) => {
+                        if (cachedGeom && cachedPin) {
+                            dbStatus.innerHTML = "Loading databases from local cache...";
+                            Promise.all([
+                                cachedGeom.json(),
+                                cachedPin.json()
+                            ]).then(([geomData, pinData]) => {
+                                geojsonData = geomData;
+                                pincodeData = pinData;
+                                dbStatus.style.display = 'none';
+                                mainContent.style.display = 'block';
+                            }).catch(err => {
+                                dbStatus.innerHTML = "Cache corrupted. Re-fetching databases...";
+                                fetchFreshDatabases(cache);
+                            });
+                        } else {
+                            dbStatus.innerHTML = "Fetching databases from server (approx. 3MB)...";
+                            fetchFreshDatabases(cache);
+                        }
+                    });
+                }).catch(err => {
+                    fetchNoCache();
+                });
+            } else {
+                fetchNoCache();
+            }
+        };
+
+        function fetchFreshDatabases(cache) {
+            Promise.all([
+                fetch(GEOM_URL).then(res => {
+                    if (!res.ok) throw new Error();
+                    cache.put(GEOM_URL, res.clone());
+                    return res.json();
+                }),
+                fetch(PIN_URL).then(res => {
+                    if (!res.ok) throw new Error();
+                    cache.put(PIN_URL, res.clone());
+                    return res.json();
+                })
+            ]).then(([geomData, pinData]) => {
+                geojsonData = geomData;
+                pincodeData = pinData;
+                document.getElementById('db-status').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+            }).catch(err => {
+                document.getElementById('db-status').innerHTML = "Error: Databases could not be loaded from server.";
+                document.getElementById('db-status').style.color = "red";
+            });
+        }
+
+        function fetchNoCache() {
+            const dbStatus = document.getElementById('db-status');
+            dbStatus.innerHTML = "Loading databases (no caching)...";
+            Promise.all([
+                fetch(GEOM_URL).then(res => res.json()),
+                fetch(PIN_URL).then(res => res.json())
+            ]).then(([geomData, pinData]) => {
+                geojsonData = geomData;
+                pincodeData = pinData;
+                dbStatus.style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+            }).catch(err => {
+                dbStatus.innerHTML = "Error: Databases could not be loaded.";
+                dbStatus.style.color = "red";
+            });
+        }
+
+        function searchByPIN() {
+            const pin = document.getElementById('pin-input').value.trim();
+            const errorDiv = document.getElementById('error');
+            const resultDiv = document.getElementById('result');
+            const warningDiv = document.getElementById('warning');
+            
+            errorDiv.style.display = 'none';
+            resultDiv.style.display = 'none';
+            warningDiv.style.display = 'none';
+
+            if (!/^\d{6}$/.test(pin)) {
+                errorDiv.innerHTML = "Error: Please enter a valid 6-digit PIN code.";
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            if (!pincodeData || !geojsonData) {
+                errorDiv.innerHTML = "Error: Databases not fully loaded yet.";
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            // Look up PIN code locally (100% offline, no external API call!)
+            const record = pincodeData[pin];
+            if (!record) {
+                errorDiv.innerHTML = "Error: PIN Code not found in the local database.";
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            // Extract values: [lat, lon, district, state]
+            const lat = record[0];
+            const lon = record[1];
+            const apiDistrict = record[2] ? record[2].trim().toUpperCase() : "";
+            const apiState = record[3] ? record[3].trim() : "";
+
+            // Run Point-in-Polygon check
+            const feat = findConstituencyFeature(lat, lon);
+            
+            if (feat) {
+                const props = feat.properties;
+                
+                // Disambiguation / Verification with District Name
+                if (props.pc_name.toUpperCase() === apiDistrict || 
+                    apiDistrict.includes(props.pc_name.toUpperCase()) || 
+                    props.pc_name.toUpperCase().includes(apiDistrict)) {
+                    showResult(props.pc_name, props.st_name);
+                } else {
+                    // Coordinates matched a boundary, but didn't match the district (possible overlap or error)
+                    showResult(props.pc_name, props.st_name);
+                }
+            } else {
+                // Resolved coordinates fell outside boundaries. Show warning.
+                showManualWarning(pin, apiDistrict, apiState);
+            }
+        }
+
+        function showManualWarning(pin, district, state) {
+            const warningDiv = document.getElementById('warning');
+            let msg = `<strong>Constituency could not be determined automatically for PIN code ${pin}.</strong><br><br>`;
+            if (district && state) {
+                msg += `The database registers this PIN code under the administrative district of <strong>${toTitleCase(district)} (${toTitleCase(state)})</strong>. `;
+                msg += `However, because postal directories and Lok Sabha electoral boundaries do not always align perfectly (and because coordinate entries may be missing or inaccurate), please verify your exact constituency manually on the official Election Commission of India portal.`;
+            } else {
+                msg += `No coordinates are available for the post offices in this PIN code. Please look up your constituency manually.`;
+            }
+            warningDiv.innerHTML = msg;
+            warningDiv.style.display = 'block';
+        }
+
+        function toTitleCase(str) {
+            return str.replace(/\w\S*/g, function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+        }
+
+        function showResult(constituency, state) {
+            document.getElementById('res-const').innerHTML = constituency;
+            document.getElementById('res-state').innerHTML = state;
+            document.getElementById('result').style.display = 'block';
+        }
+
+        // --- Point in Polygon Engine (Ray-casting) ---
+        function pointInRing(x, y, ring) {
+            let inside = false;
+            const n = ring.length;
+            if (n < 3) return false;
+            let p1x = ring[0][0], p1y = ring[0][1];
+            for (let i = 0; i <= n; i++) {
+                const p2 = ring[i % n];
+                const p2x = p2[0], p2y = p2[1];
+                if (y > Math.min(p1y, p2y)) {
+                    if (y <= Math.max(p1y, p2y)) {
+                        if (x <= Math.max(p1x, p2x)) {
+                            let xinters = p1y !== p2y ? (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x : p1x;
+                            if (p1x === p2x || x <= xinters) {
+                                inside = !inside;
+                            }
+                        }
+                    }
+                }
+                p1x = p2x;
+                p1y = p2y;
+            }
+            return inside;
+        }
+
+        function pointInPolygon(x, y, poly) {
+            if (!pointInRing(x, y, poly[0])) return false;
+            for (let i = 1; i < poly.length; i++) {
+                if (pointInRing(x, y, poly[i])) return false;
+            }
+            return true;
+        }
+
+        function pointInMultiPolygon(x, y, multipoly) {
+            for (let i = 0; i < multipoly.length; i++) {
+                if (pointInPolygon(x, y, multipoly[i])) return true;
+            }
+            return false;
+        }
+
+        function findConstituencyFeature(lat, lon) {
+            if (!geojsonData) return null;
+            const x = lon;
+            const y = lat;
+            for (const feature of geojsonData.features) {
+                const geom = feature.geometry;
+                if (geom.type === 'Polygon') {
+                    if (pointInPolygon(x, y, geom.coordinates)) return feature;
+                } else if (geom.type === 'MultiPolygon') {
+                    if (pointInMultiPolygon(x, y, geom.coordinates)) return feature;
+                }
+            }
+            return null;
+        }
+    </script>
+</body>
+</html>
