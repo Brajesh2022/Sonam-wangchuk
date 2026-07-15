@@ -178,7 +178,27 @@
         <h2 id="modal-constituency">-</h2>
         <p class="modal-state-label">State/UT: <span id="modal-state">-</span></p>
         <p class="modal-mp-label">Emailing: <strong id="modal-mp">-</strong></p>
-        <p class="modal-status" id="modal-status">Opening your email app...</p>
+        <p class="modal-status" id="modal-status">Review the prepared email, then open your email app.</p>
+        <details class="email-preview" id="email-preview">
+          <summary>Show prepared email</summary>
+          <div class="email-fields">
+            <label for="email-to">To</label>
+            <div class="email-copy-row">
+              <input id="email-to" type="text" readonly>
+              <button class="copy-button" type="button" data-copy-target="email-to">Copy</button>
+            </div>
+            <label for="email-subject">Subject</label>
+            <div class="email-copy-row">
+              <input id="email-subject" type="text" readonly>
+              <button class="copy-button" type="button" data-copy-target="email-subject">Copy</button>
+            </div>
+            <label for="email-body">Body</label>
+            <div class="email-copy-row email-body-row">
+              <textarea id="email-body" rows="10" readonly></textarea>
+              <button class="copy-button" type="button" data-copy-target="email-body">Copy</button>
+            </div>
+          </div>
+        </details>
         <button class="modal-action-btn" id="modal-action-btn">Open email app</button>
       </div>
     </div>

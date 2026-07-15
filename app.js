@@ -12,6 +12,11 @@ const modalMp = document.querySelector('#modal-mp');
 const modalStatus = document.querySelector('#modal-status');
 const modalCloseBtn = document.querySelector('#modal-close-btn');
 const modalActionBtn = document.querySelector('#modal-action-btn');
+const emailPreview = document.querySelector('#email-preview');
+const emailTo = document.querySelector('#email-to');
+const emailSubject = document.querySelector('#email-subject');
+const emailBody = document.querySelector('#email-body');
+const copyButtons = document.querySelectorAll('[data-copy-target]');
 
 const CONSTITUENCY_GEOJSON = 'https://gist.githack.com/planemad/1e2b63f6b9806970db749f19980ffd25/raw/d0b13d1b8df9c4f9b88e16de1271661ff6b64923/india_pc_2024_simplified.geojson';
 const PINDB_URL = 'pindb.json';
@@ -24,6 +29,8 @@ let mpRecords = [];
 let templateConfig = null;
 let constituencyOptions = [];
 let selectedMp = null;
+let preparedEmail = null;
+let mailtoWatch = null;
 let dbResolve;
 const dbPromise = new Promise(resolve => { dbResolve = resolve; });
 
@@ -34,11 +41,20 @@ function showToast(message) {
   toastTimer = window.setTimeout(() => toast.classList.remove('show'), 3200);
 }
 
-function openModal(constituency, state, mp, status) {
+function setPreparedEmail(email) {
+  preparedEmail = email;
+  emailTo.value = email.recipients.join(', ');
+  emailSubject.value = email.subject;
+  emailBody.value = email.body;
+  emailPreview.open = false;
+}
+
+function openModal(constituency, state, mp, status, email) {
   modalConstituency.textContent = constituency;
   modalState.textContent = state || 'Not available';
   modalMp.textContent = mp.mp_name;
   modalStatus.textContent = status;
+  setPreparedEmail(email);
   modalActionBtn.disabled = false;
   modal.classList.add('show');
   modal.style.display = 'flex';
@@ -56,7 +72,25 @@ modal.addEventListener('click', event => {
   if (event.target === modal) closeModal();
 });
 modalActionBtn.addEventListener('click', () => {
-  if (selectedMp) openMailClient(selectedMp);
+  if (selectedMp && preparedEmail) openMailClient(selectedMp, preparedEmail);
+});
+
+async function copyTarget(targetId) {
+  const target = document.querySelector(`#${targetId}`);
+  if (!target) return;
+  try {
+    await navigator.clipboard.writeText(target.value);
+  } catch (error) {
+    target.focus();
+    target.select();
+    document.execCommand('copy');
+    target.setSelectionRange(0, 0);
+  }
+  showToast(`${targetId === 'email-body' ? 'Email body' : targetId === 'email-subject' ? 'Subject' : 'Recipients'} copied.`);
+}
+
+copyButtons.forEach(button => {
+  button.addEventListener('click', () => copyTarget(button.dataset.copyTarget));
 });
 
 function cacheBoundingBoxes(features) {
@@ -257,27 +291,63 @@ function renderEmail(mp) {
   return { subject: replaceTokens(template.subject), body: replaceTokens(template.body) };
 }
 
-function openMailClient(mp) {
-  if (!mp) return;
-  const recipient = mp.email_official || mp.email_personal;
-  if (!recipient) {
+function prepareEmail(mp) {
+  const rendered = renderEmail(mp);
+  const recipients = [mp.email_official, mp.email_personal]
+    .filter(Boolean)
+    .filter((recipient, index, all) => all.indexOf(recipient) === index);
+  return { ...rendered, recipients };
+}
+
+function clearMailtoWatch() {
+  if (!mailtoWatch) return;
+  window.removeEventListener('blur', mailtoWatch.onLeave);
+  document.removeEventListener('visibilitychange', mailtoWatch.onVisibility);
+  window.clearTimeout(mailtoWatch.timer);
+  mailtoWatch = null;
+}
+
+function handleMailtoFailure() {
+  clearMailtoWatch();
+  emailPreview.open = true;
+  modalStatus.textContent = 'Mail app not found or could not be opened. Copy the email below instead.';
+  showToast('Mail app not found or failed to open. Copy the email below.');
+  emailPreview.scrollIntoView({ block: 'nearest' });
+}
+
+function openMailClient(mp, email = preparedEmail) {
+  if (!mp || !email) return;
+  if (!email.recipients.length) {
     modalStatus.textContent = 'No email address is available for this MP.';
+    emailPreview.open = true;
     showToast('No email address is available for this MP.');
     return;
   }
-  const email = renderEmail(mp);
+  clearMailtoWatch();
   modalStatus.textContent = 'Opening your email app...';
-  window.location.href = `mailto:${recipient}?subject=${encodeURIComponent(email.subject)}&body=${encodeURIComponent(email.body)}`;
+  const onLeave = () => clearMailtoWatch();
+  const onVisibility = () => {
+    if (document.visibilityState === 'hidden') clearMailtoWatch();
+  };
+  const timer = window.setTimeout(() => {
+    if (mailtoWatch) handleMailtoFailure();
+  }, 1800);
+  mailtoWatch = { onLeave, onVisibility, timer };
+  window.addEventListener('blur', onLeave, { once: true });
+  document.addEventListener('visibilitychange', onVisibility);
+  window.location.href = `mailto:${email.recipients.join(',')}?subject=${encodeURIComponent(email.subject)}&body=${encodeURIComponent(email.body)}`;
   showToast(`Opening your email app for ${mp.mp_name}.`);
 }
 
-async function resolveConstituency(constituency, state) {
+async function resolveConstituency(constituency, state, autoOpen = true) {
   const mp = findMp(constituency, state);
   if (!mp) throw new Error(`No MP record found for ${constituency}.`);
   selectedMp = mp;
   field.value = mp.constituency;
-  openModal(mp.constituency, state || mp.state, mp, 'Opening your email app...');
-  openMailClient(mp);
+  const email = prepareEmail(mp);
+  openModal(mp.constituency, state || mp.state, mp,
+    autoOpen ? 'Opening your email app...' : 'Review the prepared email, then open your email app.', email);
+  if (autoOpen) openMailClient(mp, email);
 }
 
 let isSearching = false;
@@ -305,7 +375,7 @@ async function runSearch(value = field.value.trim(), state) {
       const [lat, lon] = entry;
       const match = findMatchingConstituency([lon, lat]);
       if (!match) throw new Error('No constituency boundary found for this PIN code.');
-      await resolveConstituency(getName(match), getState(match));
+      await resolveConstituency(getName(match), getState(match), false);
     } else {
       const mp = findMp(value, state);
       if (!mp) throw new Error('Constituency not found. Choose a suggestion or enter a 6-digit PIN code.');
