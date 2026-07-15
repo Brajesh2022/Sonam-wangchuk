@@ -225,12 +225,12 @@
       showToast("Preparing appeal to " + modalConstituency.textContent + " MP...");
     });
 
-    const PIN_API = 'https://aniket-thapa.github.io/india-pincode-api';
     const CONSTITUENCY_GEOJSON = 'https://gist.githack.com/planemad/1e2b63f6b9806970db749f19980ffd25/raw/d0b13d1b8df9c4f9b88e16de1271661ff6b64923/india_pc_2024_simplified.geojson';
-    const OSM_SEARCH = 'https://photon.komoot.io/api/';
-    const GEOCODE_CONCURRENCY = 6;
+    const PINDB_URL = 'pindb.json';
 
     let constituencies = null;
+    /** @type {Object.<string,[number,number,string,string]>|null} */
+    let pindb = null;
     let dbResolve;
     const dbPromise = new Promise(resolve => { dbResolve = resolve; });
 
@@ -285,87 +285,6 @@
       return String(value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
     }
 
-    function statesMatch(s1, s2) {
-      const n1 = normalizeText(s1);
-      const n2 = normalizeText(s2);
-      if (n1 === n2) return true;
-      const simplify = (str) => {
-        return str
-          .replace(/and/g, '')
-          .replace(/nctof/g, '')
-          .replace(/nationalcapitalterritoryof/g, '')
-          .replace(/unionterritoryof/g, '')
-          .replace(/ut/g, '')
-          .replace(/[^a-z0-9]/g, '');
-      };
-      const sim1 = simplify(n1);
-      const sim2 = simplify(n2);
-      return sim1 === sim2 || sim1.includes(sim2) || sim2.includes(sim1);
-    }
-
-    function officeLocality(officeName) {
-      return String(officeName || '')
-        .replace(/\s+(?:B\.?O\.?|S\.?O\.?|H\.?O\.?)\s*$/i, '')
-        .trim();
-    }
-
-    function matchingLiveFeature(features, locality, district, state) {
-      const expectedLocality = normalizeText(locality);
-      const expectedDistrict = normalizeText(district);
-      const expectedState = normalizeText(state);
-
-      return features.find((feature) => {
-        const properties = feature.properties || {};
-        const featureState = normalizeText(properties.state);
-        const featureDistrict = normalizeText(properties.county || properties.district);
-        const localities = [properties.name, properties.city, properties.locality].map(normalizeText);
-
-        return featureState === expectedState &&
-          featureDistrict === expectedDistrict &&
-          localities.includes(expectedLocality);
-      });
-    }
-
-    async function geocodeOffice(office, pinData) {
-      const locality = officeLocality(office.officeName);
-      const cacheKey = `pin-constituency-geocode:${locality}|${pinData.pincode}|${pinData.district}|${pinData.state}`;
-      const cached = sessionStorage.getItem(cacheKey);
-
-      if (cached) return JSON.parse(cached);
-
-      const query = `${locality}, ${pinData.pincode}, ${pinData.district}, ${pinData.state}, India`;
-      const url = `${OSM_SEARCH}?q=${encodeURIComponent(query)}&limit=5`;
-      const response = await fetch(url);
-      if (!response.ok) throw new Error('Live lookup error.');
-
-      const data = await response.json();
-      const feature = matchingLiveFeature(data.features || [], locality, pinData.district, pinData.state);
-      const outcome = feature
-        ? { coordinate: feature.geometry.coordinates }
-        : { coordinate: null };
-
-      sessionStorage.setItem(cacheKey, JSON.stringify(outcome));
-      return outcome;
-    }
-
-    async function mapWithConcurrency(items, limit, worker, progressCallback) {
-      const output = new Array(items.length);
-      let nextIndex = 0;
-      let completed = 0;
-
-      async function run() {
-        while (nextIndex < items.length) {
-          const index = nextIndex++;
-          output[index] = await worker(items[index]);
-          completed++;
-          progressCallback(completed, items.length);
-        }
-      }
-
-      await Promise.all(Array.from({ length: Math.min(limit, items.length) }, run));
-      return output;
-    }
-
     let isSearching = false;
 
     field.addEventListener('input', (e) => {
@@ -380,33 +299,36 @@
     });
 
     async function initPreload() {
-      const url = CONSTITUENCY_GEOJSON;
+      const geoUrl = CONSTITUENCY_GEOJSON;
       try {
-        let response = null;
+        // Load constituency GeoJSON (with Cache API fallback)
+        let geoResponse = null;
         if ('caches' in window) {
           try {
             const cache = await caches.open('constituency-cache-v2');
-            response = await cache.match(url);
-            if (!response) {
-              await cache.add(url);
-              response = await cache.match(url);
+            geoResponse = await cache.match(geoUrl);
+            if (!geoResponse) {
+              await cache.add(geoUrl);
+              geoResponse = await cache.match(geoUrl);
             }
           } catch (cacheErr) {
             console.warn('Cache API fallback:', cacheErr);
           }
         }
-
-        if (!response) {
-          response = await fetch(url);
-        }
-
-        if (!response.ok) throw new Error('Network error loading map.');
-        const data = await response.json();
-        constituencies = data.features;
+        if (!geoResponse) geoResponse = await fetch(geoUrl);
+        if (!geoResponse.ok) throw new Error('Network error loading map.');
+        const geoData = await geoResponse.json();
+        constituencies = geoData.features;
         cacheBoundingBoxes(constituencies);
+
+        // Load offline pincode database (served from same origin, gzip-compressed)
+        const pinResponse = await fetch(PINDB_URL);
+        if (!pinResponse.ok) throw new Error('Failed to load pincode database.');
+        pindb = await pinResponse.json();
+
         dbResolve();
       } catch (err) {
-        console.error('Error preloading boundaries:', err);
+        console.error('Error preloading data:', err);
         dbResolve();
       }
     }
@@ -435,87 +357,21 @@
         if (!constituencies) {
           await dbPromise;
           if (!constituencies) {
-            throw new Error("Could not load boundary map. Please check your connection.");
+            throw new Error('Could not load boundary map. Please check your connection.');
           }
         }
 
         // Check if it is a 6-digit PIN code
         if (/^\d{6}$/.test(inputVal)) {
-          const pinResponse = await fetch(`${PIN_API}/pincodes/${inputVal}.json`);
-          if (!pinResponse.ok) throw new Error('PIN code not found.');
-          const pinData = await pinResponse.json();
-          const offices = pinData.offices || [];
-          
-          if (!offices.length) {
-            throw new Error('No post offices found for this PIN.');
-          }
+          if (!pindb) throw new Error('Pincode database is still loading. Please try again.');
+          const entry = pindb[inputVal];
+          if (!entry) throw new Error('PIN code not found in our database.');
 
-          const coordinateCounts = new Map();
-          offices.forEach((office) => {
-            const key = coordinateKey(office);
-            if (key) coordinateCounts.set(key, (coordinateCounts.get(key) || 0) + 1);
-          });
-
-          const liveResults = await mapWithConcurrency(
-            offices, 
-            GEOCODE_CONCURRENCY, 
-            async (office) => {
-              try {
-                return await geocodeOffice(office, pinData);
-              } catch {
-                return { coordinate: null };
-              }
-            },
-            (completed, total) => {
-              appealBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin-pulse 1.5s linear infinite;"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="4.93" x2="19.07" y2="7.76"></line></svg> Mapping (' + completed + '/' + total + ')...';
-            }
-          );
-
-          const counts = new Map();
-          let usableOfficeCount = 0;
-
-          for (const [index, office] of offices.entries()) {
-            const liveResult = liveResults[index];
-            const rawKey = coordinateKey(office);
-            const rawIsShared = rawKey && coordinateCounts.get(rawKey) > 1;
-            const coordinate = liveResult.coordinate || (!rawIsShared && mappedPoint(office));
-
-            if (!coordinate) continue;
-
-            const match = findMatchingConstituency(coordinate);
-            if (!match) continue;
-
-            const matchState = getState(match);
-            if (!statesMatch(matchState, pinData.state)) {
-              continue;
-            }
-
-            usableOfficeCount += 1;
-            const name = getName(match);
-            const state = matchState;
-            const key = `${name}\u0000${state}`;
-            const entry = counts.get(key) || { name, state, offices: [] };
-            
-            entry.offices.push(office.officeName);
-            counts.set(key, entry);
-          }
-
-          if (!usableOfficeCount) {
-            throw new Error('No matchable location data available for this PIN.');
-          }
-
-          const ranking = [...counts.values()].sort((a, b) => b.offices.length - a.offices.length || a.name.localeCompare(b.name));
-          
-          if (!ranking.length) {
-            throw new Error('No constituency boundary matches found for this location.');
-          }
-
-          const percentage = Math.round((ranking[0].offices.length / usableOfficeCount) * 100);
-          if (percentage > 60) {
-            openModal(ranking[0].name, ranking[0].state);
-          } else {
-            throw new Error('No constituency matched with >60% confidence.');
-          }
+          // entry = [lat, lon, state, district] — O(1) offline lookup, no network call
+          const [lat, lon] = entry;
+          const match = findMatchingConstituency([lon, lat]);
+          if (!match) throw new Error('No constituency boundary found for this PIN code.');
+          openModal(getName(match), getState(match));
         } else {
           // Search by constituency name
           const query = inputVal.toLowerCase();
@@ -526,7 +382,7 @@
           if (feat) {
             openModal(getName(feat), getState(feat));
           } else {
-            throw new Error("Constituency not found. Try a 6-digit PIN code instead.");
+            throw new Error('Constituency not found. Try a 6-digit PIN code instead.');
           }
         }
       } catch (error) {
