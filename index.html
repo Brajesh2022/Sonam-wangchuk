@@ -2,15 +2,21 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Electoral Constituency Finder (1995)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electoral Constituency Finder (2026)</title>
     <style>
         body {
             background-color: #ffffff;
             color: #000000;
             font-family: "Times New Roman", Times, serif;
-            padding: 40px;
+            padding: 20px;
             max-width: 600px;
             margin: 0 auto;
+        }
+        @media (min-width: 600px) {
+            body {
+                padding: 40px;
+            }
         }
         h1 {
             font-size: 26px;
@@ -48,10 +54,12 @@
         input[type="text"] {
             font-family: monospace;
             padding: 3px;
+            font-size: 16px;
         }
         button {
             padding: 2px 10px;
             cursor: pointer;
+            font-size: 16px;
         }
         .warning-box {
             margin-top: 35px;
@@ -67,7 +75,7 @@
 </head>
 <body>
     <h1>Electoral Constituency Finder</h1>
-    <p>Version 1.0 (Released July 1995)</p>
+    <p>Version 1.0 (Released July 2026)</p>
     <hr>
 
     <div id="db-status" class="loading">Loading databases, please wait...</div>
@@ -77,6 +85,8 @@
             <label for="pin-input">Enter 6-Digit PIN Code: </label>
             <input type="text" id="pin-input" size="12" maxlength="6">
             <button id="search-btn" onclick="searchByPIN()">Find</button>
+            <span style="margin: 0 5px;">or</span>
+            <button id="gps-btn" onclick="searchByGPS()">Use Current Location</button>
         </div>
 
         <div id="result" class="result-box">
@@ -93,7 +103,7 @@
     </div>
 
     <hr>
-    <p><font size="2">Copyright &copy; 1995. All rights reserved.</font></p>
+    <p><font size="2">Copyright &copy; 2026. All rights reserved.</font></p>
 
     <script>
         let geojsonData = null;
@@ -235,6 +245,73 @@
                 // Resolved coordinates fell outside boundaries. Show warning.
                 showManualWarning(pin, apiDistrict, apiState);
             }
+        }
+
+        function searchByGPS() {
+            const errorDiv = document.getElementById('error');
+            const resultDiv = document.getElementById('result');
+            const warningDiv = document.getElementById('warning');
+            const gpsBtn = document.getElementById('gps-btn');
+            const searchBtn = document.getElementById('search-btn');
+            const pinInput = document.getElementById('pin-input');
+            
+            errorDiv.style.display = 'none';
+            resultDiv.style.display = 'none';
+            warningDiv.style.display = 'none';
+
+            if (!('geolocation' in navigator)) {
+                errorDiv.innerHTML = "Error: Geolocation is not supported by your browser.";
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            if (!geojsonData) {
+                errorDiv.innerHTML = "Error: Databases not fully loaded yet.";
+                errorDiv.style.display = 'block';
+                return;
+            }
+
+            gpsBtn.disabled = true;
+            searchBtn.disabled = true;
+            pinInput.disabled = true;
+            gpsBtn.innerHTML = "Locating...";
+
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    const feat = findConstituencyFeature(lat, lon);
+                    if (feat) {
+                        const props = feat.properties;
+                        showResult(props.pc_name, props.st_name);
+                    } else {
+                        errorDiv.innerHTML = "Error: No constituency found for your location (you may be outside India).";
+                        errorDiv.style.display = 'block';
+                    }
+                    gpsBtn.disabled = false;
+                    searchBtn.disabled = false;
+                    pinInput.disabled = false;
+                    gpsBtn.innerHTML = "Use Current Location";
+                },
+                function(error) {
+                    let msg = "Error: Could not get your location.";
+                    if (error.code === error.PERMISSION_DENIED) {
+                        msg = "Error: Location permission denied.";
+                    } else if (error.code === error.POSITION_UNAVAILABLE) {
+                        msg = "Error: Location information unavailable.";
+                    } else if (error.code === error.TIMEOUT) {
+                        msg = "Error: Location request timed out.";
+                    }
+                    errorDiv.innerHTML = msg;
+                    errorDiv.style.display = 'block';
+                    gpsBtn.disabled = false;
+                    searchBtn.disabled = false;
+                    pinInput.disabled = false;
+                    gpsBtn.innerHTML = "Use Current Location";
+                },
+                { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+            );
         }
 
         function showManualWarning(pin, district, state) {
