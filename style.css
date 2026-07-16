@@ -190,6 +190,7 @@ footer { margin-top: 65px; border-top: 1px solid #eaedf3; background: #fdfdfe; }
 
 /* Mobile */
 @media (max-width: 560px) { 
+  body { font-size: 13.6px; }
   .shell { width: calc(100% - 32px); }
   
   /* Hero background preservation */
@@ -199,66 +200,83 @@ footer { margin-top: 65px; border-top: 1px solid #eaedf3; background: #fdfdfe; }
   
   .hero-content { width: 100%; padding: 42px 0 24px; }
   .eyebrow { display: none; } 
-  h1 { font-size: 40px; line-height: 1.12; }
+  h1 { font-size: 34px; line-height: 1.12; }
   .accent { width: 80px; height: 4px; margin: 18px 0 16px; }
-  .lead { font-size: 16px; line-height: 1.5; }
+  .lead { font-size: 13.6px; line-height: 1.5; }
   
   .appeal-box { flex-direction: column; align-items: stretch; gap: 6px; margin-top: 26px; padding: 8px; border-radius: 18px; }
   .search-control { width: 100%; }
   .pin-field { min-height: 48px; padding-left: 10px; }
   .pin-field svg { width: 22px; height: 22px; }
-  .pin-field input { font-size: 15px; }
-  .appeal-button { width: 100%; padding: 15px; font-size: 15px; justify-content: center; }
+  .pin-field input { font-size: 12.75px; }
+  .appeal-button { width: 100%; padding: 15px; font-size: 12.75px; justify-content: center; }
   
-  .privacy { margin-top: 16px; font-size: 12px; }
+  .privacy { margin-top: 16px; font-size: 10.2px; }
   .privacy svg { width: 16px; height: 16px; }
   
   .how { padding: 55px 0 50px; }
-  .section-heading { font-size: 26px; }
+  .section-heading { font-size: 22.1px; }
   .section-heading::after { margin-top: 14px; }
   
   .steps { gap: 12px; margin-top: 40px; }
   .step-icon { width: 64px; height: 64px; }
   .step-icon svg { width: 32px; height: 32px; }
-  .step-number { width: 26px; height: 26px; margin: -10px auto 10px; font-size: 13px; border-width: 3px; }
-  .step h3 { font-size: 15px; }
-  .step p { max-width: 105px; margin-top: 8px; font-size: 12.5px; line-height: 1.45; }
+  .step-number { width: 26px; height: 26px; margin: -10px auto 10px; font-size: 11.05px; border-width: 3px; }
+  .step h3 { font-size: 12.75px; }
+  .step p { max-width: 105px; margin-top: 8px; font-size: 10.625px; line-height: 1.45; }
   
   .personalized { gap: 24px; padding: 28px 20px; border-radius: 20px; }
   .feature-badge { flex-basis: 56px; width: 56px; height: 56px; border-radius: 16px; }
   .feature-badge svg { width: 28px; height: 28px; }
   .feature-heading { gap: 14px; }
-  .feature-heading h2 { font-size: 20px; }
-  .feature-copy { margin-top: 18px; font-size: 15px; }
+  .feature-heading h2 { font-size: 17px; }
+  .feature-copy { margin-top: 18px; font-size: 12.75px; }
   
   .flow { gap: 10px; }
   .mini-card { height: 150px; padding: 12px 8px; border-radius: 12px; }
-  .mini-card strong { font-size: 11px; line-height: 1.3; }
+  .mini-card strong { font-size: 9.35px; line-height: 1.3; }
   .mini-card > svg { width: 32px; height: 32px; margin-bottom: 8px; }
   
-  .checks { margin-top: 8px; font-size: 9px; line-height: 1.8; }
-  .checks b { font-size: 12px; margin-right: 3px; }
+  .checks { margin-top: 8px; font-size: 7.65px; line-height: 1.8; }
+  .checks b { font-size: 10.2px; margin-right: 3px; }
   .doc-lines { gap: 5px; margin: 12px 10px 0; }
   .doc-lines i { height: 3px; }
   
   .email { width: 56px; height: 46px; margin-bottom: 12px; }
-  .check-mark { right: -5px; bottom: -5px; width: 24px; height: 24px; border-width: 2px; font-size: 11px; }
+  .check-mark { right: -5px; bottom: -5px; width: 24px; height: 24px; border-width: 2px; font-size: 9.35px; }
   
-  .closing { margin-top: 24px; padding: 18px; font-size: 15px; flex-direction: column; text-align: center; gap: 12px; }
+  .closing { margin-top: 24px; padding: 18px; font-size: 12.75px; flex-direction: column; text-align: center; gap: 12px; }
   .closing svg { width: 36px; height: 36px; }
   
   .footer-inner { gap: 18px; padding: 28px 0; }
   .footer-links { gap: 16px; flex-wrap: wrap; justify-content: center; }
-  .footer-links a { font-size: 13px; }
-  .socials { gap: 22px; }
-  .bar { padding: 18px; font-size: 13px; }
+  .footer-links a { font-size: 11.05px; }
+  .socials a { font-size: 12.75px; }
+  .bar { padding: 18px; font-size: 11.05px; }
+
+  /* New mobile font size overrides */
+  .suggestions li { font-size: 11.9px; }
+  .suggestions span { font-size: 10.2px; }
+  .toast { font-size: 12.75px; }
+  .modal-close { font-size: 23.8px; }
+  .modal-eyebrow { font-size: 11.475px; }
+  .modal-body h2 { font-size: 23.8px; }
+  .modal-state-label { font-size: 13.6px; }
+  .modal-mp-label { font-size: 12.75px; }
+  .modal-status { font-size: 11.9px; }
+  .email-preview summary { font-size: 11.05px; }
+  .email-copy-row input, .email-copy-row textarea { font-size: 11.05px; }
+  .modal-action-btn { font-size: 13.6px; }
+  .sheet-eyebrow { font-size: 10.2px; }
+  .faq-item summary { font-size: 12.75px; }
+  .faq-item p { font-size: 11.9px; }
 }
 
 @media (max-width: 360px) {
    .step-icon { width: 54px; height: 54px; }
    .step-icon svg { width: 28px; height: 28px; }
-   .step h3 { font-size: 14px; }
-   .step p { font-size: 11.5px; }
+   .step h3 { font-size: 11.9px; }
+   .step p { font-size: 9.775px; }
    .mini-card { height: 140px; }
 }
 
@@ -395,7 +413,7 @@ body.sheet-open { overflow: hidden; }
 @media (max-width: 560px) {
   .bottom-sheet { width: 100%; max-height: 86vh; border-right: 0; border-left: 0; border-radius: 22px 22px 0 0; }
   .sheet-content { padding: 10px 20px 26px; }
-  .sheet-content h2 { margin-right: 40px; font-size: 28px; }
-  .sheet-copy { font-size: 15px; line-height: 1.65; }
+  .sheet-content h2 { margin-right: 40px; font-size: 23.8px; }
+  .sheet-copy { font-size: 12.75px; line-height: 1.65; }
   .sheet-close { top: 14px; right: 16px; }
 }
