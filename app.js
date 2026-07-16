@@ -63,6 +63,7 @@ function setModalStatus(message) {
 }
 
 function openModal(constituency, state, mp, status, email) {
+  field.blur();
   modalConstituency.textContent = constituency;
   modalState.textContent = state || 'Not available';
   modalMp.textContent = mp.mp_name;
