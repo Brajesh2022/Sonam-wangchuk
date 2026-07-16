@@ -17,6 +17,14 @@ const emailTo = document.querySelector('#email-to');
 const emailSubject = document.querySelector('#email-subject');
 const emailBody = document.querySelector('#email-body');
 const copyButtons = document.querySelectorAll('[data-copy-target]');
+const sheetOverlay = document.querySelector('#sheet-overlay');
+const bottomSheet = document.querySelector('#bottom-sheet');
+const sheetContent = document.querySelector('#sheet-content');
+const sheetClose = document.querySelector('#sheet-close');
+const sheetHandle = document.querySelector('[data-sheet-handle]');
+let sheetRestoreFocus = null;
+let sheetDragStart = 0;
+let sheetDragDistance = 0;
 
 const CONSTITUENCY_GEOJSON = 'https://gist.githack.com/planemad/1e2b63f6b9806970db749f19980ffd25/raw/d0b13d1b8df9c4f9b88e16de1271661ff6b64923/india_pc_2024_simplified.geojson';
 const PINDB_URL = 'pindb.json';
@@ -96,6 +104,70 @@ async function copyTarget(targetId) {
 
 copyButtons.forEach(button => {
   button.addEventListener('click', () => copyTarget(button.dataset.copyTarget));
+});
+
+function openSheet(type, trigger) {
+  const template = document.querySelector(`#${type}-sheet-template`);
+  if (!template) return;
+  sheetContent.replaceChildren(template.content.cloneNode(true));
+  sheetRestoreFocus = trigger;
+  sheetOverlay.hidden = false;
+  sheetOverlay.setAttribute('aria-hidden', 'false');
+  document.body.classList.add('sheet-open');
+  requestAnimationFrame(() => sheetOverlay.classList.add('is-open'));
+  sheetClose.focus({ preventScroll: true });
+}
+
+function closeSheet() {
+  sheetOverlay.classList.remove('is-open');
+  sheetOverlay.setAttribute('aria-hidden', 'true');
+  bottomSheet.style.removeProperty('--sheet-drag');
+  document.body.classList.remove('sheet-open');
+  window.setTimeout(() => {
+    if (!sheetOverlay.classList.contains('is-open')) {
+      sheetOverlay.hidden = true;
+      sheetContent.replaceChildren();
+    }
+  }, 320);
+  if (sheetRestoreFocus) sheetRestoreFocus.focus({ preventScroll: true });
+}
+
+document.querySelectorAll('[data-sheet]').forEach(trigger => {
+  trigger.addEventListener('click', event => {
+    event.preventDefault();
+    openSheet(trigger.dataset.sheet, trigger);
+  });
+});
+sheetClose.addEventListener('click', closeSheet);
+sheetOverlay.addEventListener('click', event => {
+  if (event.target === sheetOverlay) closeSheet();
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && sheetOverlay.classList.contains('is-open')) closeSheet();
+});
+
+sheetHandle.addEventListener('pointerdown', event => {
+  sheetDragStart = event.clientY;
+  sheetDragDistance = 0;
+  sheetHandle.setPointerCapture(event.pointerId);
+  bottomSheet.classList.add('is-dragging');
+});
+sheetHandle.addEventListener('pointermove', event => {
+  if (!sheetHandle.hasPointerCapture(event.pointerId)) return;
+  sheetDragDistance = Math.max(0, event.clientY - sheetDragStart);
+  bottomSheet.style.setProperty('--sheet-drag', `${sheetDragDistance}px`);
+});
+sheetHandle.addEventListener('pointerup', event => {
+  if (!sheetHandle.hasPointerCapture(event.pointerId)) return;
+  sheetHandle.releasePointerCapture(event.pointerId);
+  bottomSheet.classList.remove('is-dragging');
+  if (sheetDragDistance > 110) closeSheet();
+  else bottomSheet.style.removeProperty('--sheet-drag');
+});
+sheetHandle.addEventListener('pointercancel', event => {
+  if (sheetHandle.hasPointerCapture(event.pointerId)) sheetHandle.releasePointerCapture(event.pointerId);
+  bottomSheet.classList.remove('is-dragging');
+  bottomSheet.style.removeProperty('--sheet-drag');
 });
 
 function cacheBoundingBoxes(features) {

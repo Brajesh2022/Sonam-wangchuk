@@ -18,7 +18,7 @@
         <div class="eyebrow"><span>●</span> Citizen-led appeal</div>
         <h1>Stand with <span>Sonam Wangchuk</span></h1>
         <div class="accent"></div>
-        <p class="lead">Appeal to your MP for his demand:<br><strong>Resignation of the Education Minister.</strong></p>
+        <p class="lead">Ask your MP to stand with Sonam Wangchuk<br><strong>and demand accountability.</strong></p>
 
         <form class="appeal-box" id="appeal-form">
           <div class="search-control">
@@ -41,7 +41,7 @@
             </div>
             <ul class="suggestions" id="constituency-suggestions" role="listbox" hidden></ul>
           </div>
-          <button class="appeal-button" type="submit">Ask your MP
+          <button class="appeal-button" type="submit">Email My MP
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14M13 6l6 6-6 6"/>
             </svg>
@@ -152,20 +152,15 @@
 
   <footer id="faq">
     <div class="shell footer-inner">
-      <p class="footer-message"><strong>Your voice today.</strong> A better tomorrow.</p>
       <div class="footer-links">
-        <a href="#why">Why This Matters</a>
+        <a href="#why" data-sheet="why">Why This Matters</a>
         <a href="#how">How It Works</a>
-        <a href="#about">About</a>
-        <a href="#faq">FAQ</a>
+        <a href="#faq" data-sheet="faq">FAQ</a>
       </div>
       <div class="socials">
-        <a href="#home" aria-label="Twitter">𝕏</a>
-        <a href="#home" aria-label="Instagram">◎</a>
-        <a href="#home" aria-label="GitHub">◉</a>
+        <a href="https://github.com/Brajesh2022/Sonam-wangchuk" target="_blank" rel="noreferrer">GitHub</a>
       </div>
     </div>
-    <div class="bar">Your voice today. A better tomorrow.</div>
   </footer>
 
   <div class="toast" id="toast" role="status"></div>
@@ -209,6 +204,44 @@
       </div>
     </div>
   </div>
+
+  <div class="sheet-overlay" id="sheet-overlay" hidden aria-hidden="true">
+    <section class="bottom-sheet" id="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+      <div class="sheet-handle-area" data-sheet-handle>
+        <span class="sheet-handle" aria-hidden="true"></span>
+      </div>
+      <button class="sheet-close" id="sheet-close" type="button" aria-label="Close information panel">&times;</button>
+      <div class="sheet-content" id="sheet-content"></div>
+    </section>
+  </div>
+
+  <template id="why-sheet-template">
+    <div class="sheet-eyebrow">Why this matters</div>
+    <h2 id="sheet-title">Why This Matters</h2>
+    <div class="sheet-copy">
+      <p>Sonam Wangchuk is on an indefinite hunger strike, demanding accountability following the NEET-UG paper leak and calling for the resignation of the Union Education Minister before the Monsoon Session of Parliament.</p>
+      <p>Supporters believe that when a major failure affects millions of students, political accountability is essential. A ministerial resignation is seen not merely as a change of person, but as a signal that public office carries responsibility for significant failures. When accountability has visible consequences, future decision-makers may face stronger incentives to improve oversight and prevent similar crises.</p>
+      <p>Parliament is where elected representatives can question the government, demand explanations, and seek action. By contacting your Member of Parliament, you are asking them to raise this issue, engage with the protest, and represent the concerns of their constituents.</p>
+      <p>This website helps citizens identify their MP and prepare a personalized email using publicly available parliamentary data. The final decision to review, edit, and send the email always remains yours.</p>
+      <p class="sheet-closing">Every email counts. Every voice matters.</p>
+    </div>
+  </template>
+
+  <template id="faq-sheet-template">
+    <div class="sheet-eyebrow">Clear answers</div>
+    <h2 id="sheet-title">Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <details class="faq-item"><summary>Does this website send emails automatically?</summary><p>No. We never send emails on your behalf. We simply prepare a personalized draft and open your email app. You can review, edit, or choose not to send it.</p></details>
+      <details class="faq-item"><summary>Can I edit the email before sending?</summary><p>Yes. The email opens as a draft in your email app, giving you complete control over its content before you send it.</p></details>
+      <details class="faq-item"><summary>Where does the MP information come from?</summary><p>MP details and parliamentary statistics are based on publicly available official parliamentary records.</p></details>
+      <details class="faq-item"><summary>How is my email personalized?</summary><p>The message is tailored using your constituency and your MP's parliamentary record, such as attendance and participation, to make your appeal more relevant.</p></details>
+      <details class="faq-item"><summary>Do you store my PIN code or personal information?</summary><p>No. Your PIN code is used only to identify your parliamentary constituency. We do not require an account or store your personal data.</p></details>
+      <details class="faq-item"><summary>Why contact my MP?</summary><p>Members of Parliament are elected to represent their constituents. Writing to your MP is a legitimate democratic way to express your concerns and ask them to raise important issues in Parliament.</p></details>
+      <details class="faq-item"><summary>Why ask for the Education Minister's resignation?</summary><p>Supporters believe that major failures affecting millions of students should have clear political accountability. They argue that ministerial responsibility helps strengthen public trust and encourages higher standards of governance.</p></details>
+      <details class="faq-item"><summary>Is this affiliated with Sonam Wangchuk or any political party?</summary><p>No. This is an independent citizen-led initiative created to help people contact their elected representatives. It is not affiliated with any political party.</p></details>
+      <details class="faq-item"><summary>I found incorrect information. What should I do?</summary><p>If you believe any MP information is inaccurate, please verify it with the official parliamentary records and let us know so we can investigate.</p></details>
+    </div>
+  </template>
 
   <script src="app.js"></script>
 </body>
