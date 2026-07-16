@@ -24,7 +24,7 @@ jobs:
           echo '{
             "hosting": {
               "site": "standwithsonam",
-              "public": ".",
+              "public": "redirect",
               "ignore": [
                 "firebase.json",
                 "**/.*",
