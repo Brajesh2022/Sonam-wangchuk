@@ -150,6 +150,7 @@ footer { margin-top: 65px; border-top: 1px solid #eaedf3; background: #fdfdfe; }
 .footer-links a, .socials a { color: #5c6c8c; text-decoration: none; font-size: 15px; font-weight: 500; transition: color 0.2s ease; }
 .footer-links a:hover, .socials a:hover { color: var(--blue); }
 .socials a { font-weight: 700; }
+.bar { padding: 20px; color: #fff; background: var(--ink); text-align: center; font-weight: 600; letter-spacing: 0.02em; font-size: 14px; }
 
 /* Toast */
 .toast { position: fixed; left: 50%; top: 30px; z-index: 50; padding: 14px 22px; border-radius: 12px; color: #fff; background: #172039; box-shadow: 0 10px 30px rgba(0,0,0,.25); font-weight: 500; font-size: 15px; opacity: 0; transform: translate(-50%, -20px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none; }
@@ -250,6 +251,7 @@ footer { margin-top: 65px; border-top: 1px solid #eaedf3; background: #fdfdfe; }
   .footer-links { gap: 16px; flex-wrap: wrap; justify-content: center; }
   .footer-links a { font-size: 13px; }
   .socials { gap: 22px; }
+  .bar { padding: 18px; font-size: 13px; }
 }
 
 @media (max-width: 360px) {

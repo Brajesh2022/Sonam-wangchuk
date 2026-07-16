@@ -6,7 +6,8 @@
   },
   "special_templates": {
     "4074": 10,
-    "4589": 11
+    "4589": 11,
+    "4716": 12
   },
   "rules": [
     {
@@ -16,6 +17,10 @@
     {
       "template_id": 11,
       "mpsno": 4589
+    },
+    {
+      "template_id": 12,
+      "mpsno": 4716
     },
     {
       "template_id": 9,
@@ -143,6 +148,12 @@
       "name": "Prime Minister",
       "subject": "{constituency} demands accountability before a citizen's health fails",
       "body": "Dear Prime Minister,\n\nYou are my Member of Parliament from {constituency}. You were elected on a promise of accountability. \"Na khaunga, na khane dunga\" resonated with millions of us.\n\nRight now, the Ministry of Education is at the center of the NEET-UG paper leak scandal that has cost students their futures and, tragically, their lives. Sonam Wangchuk, a 59 year old citizen, is on Day {fast_day} of a hunger strike at Jantar Mantar. His medical condition is critical. He has lost over 8.5 kg, his blood pressure is dangerously low, and doctors warn of organ dysfunction risks. He is demanding accountability, the resignation of Education Minister Dharmendra Pradhan, and systemic reform.\n\nYour government's silence is deafening. Before the Monsoon Session begins on July 21, I am asking you directly: meet Sonam Wangchuk. Accept his demands for accountability in the education system. Hold your Minister accountable.\n\nDo not let your legacy be the silence that led to a tragedy.\n\nI want to remind you that in the coming years, the EVM button will be in our hands. It does not matter which party you belong to. If you remain silent and do nothing while a citizen's life hangs by a thread in Delhi, the voters of {constituency} will remember.\n\nA concerned citizen of {constituency}"
+    },
+    {
+      "id": 12,
+      "name": "Speaker (Om Birla)",
+      "subject": "As Speaker, please ensure Parliament hears Sonam Wangchuk",
+      "body": "Dear Shri Om Birla,\n\nYou are my Member of Parliament from {constituency}, and as Speaker of the Lok Sabha you carry a special responsibility to protect the dignity of the House and the right of Members to be heard.\n\nSonam Wangchuk is on Day {fast_day} of an indefinite hunger strike at Jantar Mantar. He is demanding accountability following the NEET-UG paper leak, the resignation of the Union Education Minister, and justice for affected students and families.\n\nI ask you to listen carefully to concerns raised from both sides of the House. Please ensure that every Member has a fair opportunity to ask questions about Sonam Wangchuk and to seek a response from the government. Parliamentary order should protect meaningful debate, not suppress legitimate voices on an issue affecting millions of students.\n\nBefore the Monsoon Session begins on July 21, please visit Jantar Mantar and meet Sonam Wangchuk. Your presence would show that the House hears citizens who come to it in distress.\n\nAs Speaker, you can help Parliament respond with fairness, attention, and accountability.\n\nA concerned citizen of {constituency}"
     }
   ]
 }
