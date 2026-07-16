@@ -32,6 +32,13 @@ jobs:
                 "**/*.log",
                 "README.md",
                 "package*.json"
+              ],
+              "redirects": [
+                {
+                  "source": "/:path*",
+                  "destination": "https://sonam-wangchuk.pages.dev/:path",
+                  "type": 301
+                }
               ]
             }
           }' > firebase.json
