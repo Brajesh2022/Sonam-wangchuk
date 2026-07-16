@@ -1,0 +1,45 @@
+
+# Backend API routes (/api/**) are handled by Cloudflare Pages
+# Do not add /api rewrites to firebase.json
+name: Deploy to Firebase Hosting (standwithsonam)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Create Firebase config
+        run: |
+          echo '{"projects":{"default":"sonam-35739"}}' > .firebaserc
+          echo '{
+            "hosting": {
+              "site": "standwithsonam",
+              "public": ".",
+              "ignore": [
+                "firebase.json",
+                "**/.*",
+                "**/node_modules/**",
+                "**/*.log",
+                "README.md",
+                "package*.json"
+              ]
+            }
+          }' > firebase.json
+
+      - name: Deploy to Firebase
+        run: |
+          echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > serviceAccount.json
+          export GOOGLE_APPLICATION_CREDENTIALS=serviceAccount.json
+          firebase deploy --only hosting:standwithsonam --project sonam-35739 --non-interactive
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
