@@ -18,27 +18,30 @@
         <div class="eyebrow"><span>●</span> Citizen-led appeal</div>
         <h1>Stand with <span>Sonam Wangchuk</span></h1>
         <div class="accent"></div>
-        <p class="lead">Appeal to your MP for his demand:<br><strong>Resignation of the Education Minister.</strong></p>
-        
+        <p class="lead">Ask your MP to stand with Sonam Wangchuk<br><strong>and demand accountability.</strong></p>
+
         <form class="appeal-box" id="appeal-form">
-          <div class="pin-field">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0Z"/>
-              <circle cx="12" cy="10" r="3"/>
-            </svg>
-            <input id="location" aria-label="PIN code or Constituency" placeholder="Enter PIN code or Constituency" autocomplete="postal-code">
-            <button class="location-button" id="location-button" type="button" aria-label="Use my current location" title="Use my current location">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="2" y1="12" x2="5" y2="12"></line>
-                <line x1="19" y1="12" x2="22" y2="12"></line>
-                <line x1="12" y1="2" x2="12" y2="5"></line>
-                <line x1="12" y1="19" x2="12" y2="22"></line>
-                <circle cx="12" cy="12" r="7"></circle>
-                <circle cx="12" cy="12" r="2.5"></circle>
+          <div class="search-control">
+            <div class="pin-field">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0Z"/>
+                <circle cx="12" cy="10" r="3"/>
               </svg>
-            </button>
+              <input id="location" aria-label="PIN code or Constituency" placeholder="Enter PIN code or Constituency" autocomplete="off" aria-autocomplete="list" aria-controls="constituency-suggestions">
+              <button class="location-button" id="location-button" type="button" aria-label="Use my current location" title="Use my current location">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="2" y1="12" x2="5" y2="12"></line>
+                  <line x1="19" y1="12" x2="22" y2="12"></line>
+                  <line x1="12" y1="2" x2="12" y2="5"></line>
+                  <line x1="12" y1="19" x2="12" y2="22"></line>
+                  <circle cx="12" cy="12" r="7"></circle>
+                  <circle cx="12" cy="12" r="2.5"></circle>
+                </svg>
+              </button>
+            </div>
+            <ul class="suggestions" id="constituency-suggestions" role="listbox" hidden></ul>
           </div>
-          <button class="appeal-button" type="submit">Ask your MP 
+          <button class="appeal-button" type="submit">Email My MP
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14M13 6l6 6-6 6"/>
             </svg>
@@ -105,7 +108,7 @@
         </div>
         <p class="feature-copy">We check your MP's questions asked in Parliament and their attendance - and craft a message that's relevant, respectful, and impactful.</p>
       </div>
-      
+
       <div class="flow">
         <article class="mini-card">
           <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -138,7 +141,7 @@
         </article>
       </div>
     </div>
-    
+
     <div class="closing" id="about">
       <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
         <path d="M20.8 4.8a5.5 5.5 0 0 0-7.8 0L12 6l-1.1-1.2a5.5 5.5 0 0 0-7.8 7.8L12 21l8.9-8.4a5.5 5.5 0 0 0-.1-7.8Z"/>
@@ -149,298 +152,98 @@
 
   <footer id="faq">
     <div class="shell footer-inner">
-      <p class="footer-message"><strong>Your voice today.</strong> A better tomorrow.</p>
       <div class="footer-links">
-        <a href="#why">Why This Matters</a>
+        <a href="#why" data-sheet="why">Why This Matters</a>
         <a href="#how">How It Works</a>
-        <a href="#about">About</a>
-        <a href="#faq">FAQ</a>
+        <a href="#faq" data-sheet="faq">FAQ</a>
       </div>
       <div class="socials">
-        <a href="#home" aria-label="Twitter">𝕏</a>
-        <a href="#home" aria-label="Instagram">◎</a>
-        <a href="#home" aria-label="GitHub">◉</a>
+        <a href="https://github.com/Brajesh2022/Sonam-wangchuk" target="_blank" rel="noreferrer">GitHub</a>
       </div>
     </div>
     <div class="bar">Your voice today. A better tomorrow.</div>
   </footer>
-  
+
   <div class="toast" id="toast" role="status"></div>
 
-  <!-- Modal for Results -->
   <div id="result-modal" class="modal" style="display: none;">
     <div class="modal-content">
       <button class="modal-close" id="modal-close-btn" aria-label="Close modal">&times;</button>
       <div class="modal-body">
-        <div class="modal-eyebrow">Constituency Found</div>
+        <div class="modal-eyebrow">MP found</div>
         <h2 id="modal-constituency">-</h2>
         <p class="modal-state-label">State/UT: <span id="modal-state">-</span></p>
-        <button class="modal-action-btn" id="modal-action-btn">Ask your MP</button>
+        <p class="modal-mp-label">Emailing: <strong id="modal-mp">-</strong></p>
+        <p class="modal-status" id="modal-status" role="status" aria-live="polite" hidden></p>
+        <details class="email-preview" id="email-preview">
+          <summary>Email details</summary>
+          <div class="email-fields">
+            <label for="email-to">To</label>
+            <div class="email-copy-row">
+              <input id="email-to" type="text" readonly>
+              <button class="copy-button" type="button" data-copy-target="email-to" aria-label="Copy recipients" title="Copy recipients">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+            <label for="email-subject">Subject</label>
+            <div class="email-copy-row">
+              <input id="email-subject" type="text" readonly>
+              <button class="copy-button" type="button" data-copy-target="email-subject" aria-label="Copy subject" title="Copy subject">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+            <label for="email-body">Body</label>
+            <div class="email-copy-row email-body-row">
+              <textarea id="email-body" rows="10" readonly></textarea>
+              <button class="copy-button" type="button" data-copy-target="email-body" aria-label="Copy email body" title="Copy email body">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              </button>
+            </div>
+          </div>
+        </details>
+        <button class="modal-action-btn" id="modal-action-btn"><span>Open email app</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
       </div>
     </div>
   </div>
 
-  <script>
-    const form = document.querySelector('#appeal-form');
-    const field = document.querySelector('#location');
-    const locationButton = document.querySelector('#location-button');
-    const toast = document.querySelector('#toast');
-    let toastTimer;
+  <div class="sheet-overlay" id="sheet-overlay" hidden aria-hidden="true">
+    <section class="bottom-sheet" id="bottom-sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title">
+      <div class="sheet-handle-area" data-sheet-handle>
+        <span class="sheet-handle" aria-hidden="true"></span>
+      </div>
+      <button class="sheet-close" id="sheet-close" type="button" aria-label="Close information panel">&times;</button>
+      <div class="sheet-content" id="sheet-content"></div>
+    </section>
+  </div>
 
-    const modal = document.querySelector('#result-modal');
-    const modalConstituency = document.querySelector('#modal-constituency');
-    const modalState = document.querySelector('#modal-state');
-    const modalCloseBtn = document.querySelector('#modal-close-btn');
-    const modalActionBtn = document.querySelector('#modal-action-btn');
-    
-    function showToast(message) {
-      toast.textContent = message;
-      toast.classList.add('show');
-      window.clearTimeout(toastTimer);
-      toastTimer = window.setTimeout(() => toast.classList.remove('show'), 3200);
-    }
+  <template id="why-sheet-template">
+    <div class="sheet-eyebrow">Why this matters</div>
+    <h2 id="sheet-title">Why This Matters</h2>
+    <div class="sheet-copy">
+      <p>Sonam Wangchuk is on an indefinite hunger strike, demanding accountability following the NEET-UG paper leak and calling for the resignation of the Union Education Minister before the Monsoon Session of Parliament.</p>
+      <p>Supporters believe that when a major failure affects millions of students, political accountability is essential. A ministerial resignation is seen not merely as a change of person, but as a signal that public office carries responsibility for significant failures. When accountability has visible consequences, future decision-makers may face stronger incentives to improve oversight and prevent similar crises.</p>
+      <p>Parliament is where elected representatives can question the government, demand explanations, and seek action. By contacting your Member of Parliament, you are asking them to raise this issue, engage with the protest, and represent the concerns of their constituents.</p>
+      <p>This website helps citizens identify their MP and prepare a personalized email using publicly available parliamentary data. The final decision to review, edit, and send the email always remains yours.</p>
+      <p class="sheet-closing">Every email counts. Every voice matters.</p>
+    </div>
+  </template>
 
-    function openModal(constituency, state) {
-      modalConstituency.textContent = constituency;
-      modalState.textContent = state;
-      modal.classList.add('show');
-      modal.style.display = 'flex';
-    }
+  <template id="faq-sheet-template">
+    <div class="sheet-eyebrow">Clear answers</div>
+    <h2 id="sheet-title">Frequently Asked Questions</h2>
+    <div class="faq-list">
+      <details class="faq-item"><summary>Does this website send emails automatically?</summary><p>No. We never send emails on your behalf. We simply prepare a personalized draft and open your email app. You can review, edit, or choose not to send it.</p></details>
+      <details class="faq-item"><summary>Can I edit the email before sending?</summary><p>Yes. The email opens as a draft in your email app, giving you complete control over its content before you send it.</p></details>
+      <details class="faq-item"><summary>Where does the MP information come from?</summary><p>MP details and parliamentary statistics are based on publicly available official parliamentary records.</p></details>
+      <details class="faq-item"><summary>How is my email personalized?</summary><p>The message is tailored using your constituency and your MP's parliamentary record, such as attendance and participation, to make your appeal more relevant.</p></details>
+      <details class="faq-item"><summary>Do you store my PIN code or personal information?</summary><p>No. Your PIN code is used only to identify your parliamentary constituency. We do not require an account or store your personal data.</p></details>
+      <details class="faq-item"><summary>Why contact my MP?</summary><p>Members of Parliament are elected to represent their constituents. Writing to your MP is a legitimate democratic way to express your concerns and ask them to raise important issues in Parliament.</p></details>
+      <details class="faq-item"><summary>Why ask for the Education Minister's resignation?</summary><p>Supporters believe that major failures affecting millions of students should have clear political accountability. They argue that ministerial responsibility helps strengthen public trust and encourages higher standards of governance.</p></details>
+      <details class="faq-item"><summary>Is this affiliated with Sonam Wangchuk or any political party?</summary><p>No. This is an independent citizen-led initiative created to help people contact their elected representatives. It is not affiliated with any political party.</p></details>
+      <details class="faq-item"><summary>I found incorrect information. What should I do?</summary><p>If you believe any MP information is inaccurate, please verify it with the official parliamentary records and let us know so we can investigate.</p></details>
+    </div>
+  </template>
 
-    function closeModal() {
-      modal.classList.remove('show');
-      setTimeout(() => {
-        if (!modal.classList.contains('show')) {
-          modal.style.display = 'none';
-        }
-      }, 300);
-    }
-
-    modalCloseBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
-    modalActionBtn.addEventListener('click', () => {
-      closeModal();
-      showToast("Preparing appeal to " + modalConstituency.textContent + " MP...");
-    });
-
-    const CONSTITUENCY_GEOJSON = 'https://gist.githack.com/planemad/1e2b63f6b9806970db749f19980ffd25/raw/d0b13d1b8df9c4f9b88e16de1271661ff6b64923/india_pc_2024_simplified.geojson';
-    const PINDB_URL  = 'pindb.json'; // Pre-merged: community + India Post govt source (prioritized govt coords)
-
-    let constituencies = null;
-    /** @type {Object.<string,[number,number,string,string]>|null} */
-    let pindb = null;
-    let dbResolve;
-    const dbPromise = new Promise(resolve => { dbResolve = resolve; });
-
-    // Fast Spatial Bounding Box Cacher
-    function cacheBoundingBoxes(features) {
-      features.forEach(feature => {
-        feature.bbox = turf.bbox(feature);
-      });
-    }
-
-    function isPointInBBox(pointCoords, bbox) {
-      return pointCoords[0] >= bbox[0] && 
-             pointCoords[1] >= bbox[1] && 
-             pointCoords[0] <= bbox[2] && 
-             pointCoords[1] <= bbox[3];
-    }
-
-    function findMatchingConstituency(pointCoords) {
-      if (!constituencies) return null;
-      const point = turf.point(pointCoords);
-      const candidates = constituencies.filter(feature => {
-        if (!feature.bbox) return true;
-        return isPointInBBox(pointCoords, feature.bbox);
-      });
-      return candidates.find(feature => turf.booleanPointInPolygon(point, feature));
-    }
-
-    function getName(feature) {
-      const properties = feature.properties || {};
-      const rawName = properties.PC_NAME || properties.pc_name || properties.name || 'Unknown constituency';
-      return rawName.replace(/\s*\([^)]*\)\s*$/, '').trim();
-    }
-
-    function getState(feature) {
-      const properties = feature.properties || {};
-      return properties.ST_NAME || properties.st_name || properties.state || properties.STATE || '';
-    }
-
-    function mappedPoint(office) {
-      const latitude = Number(office.latitude);
-      const longitude = Number(office.longitude);
-      if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return null;
-      if (Math.abs(latitude) > 90 || Math.abs(longitude) > 180) return null;
-      return [longitude, latitude];
-    }
-
-    function coordinateKey(office) {
-      const coords = mappedPoint(office);
-      return coords ? coords.join(',') : null;
-    }
-
-    function normalizeText(value) {
-      return String(value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
-    }
-
-    let isSearching = false;
-
-    field.addEventListener('input', (e) => {
-      if (/^\d+$/.test(field.value)) {
-        if (field.value.length > 6) {
-          field.value = field.value.slice(0, 6);
-        }
-        if (field.value.length === 6) {
-          runSearch();
-        }
-      }
-    });
-
-    async function initPreload() {
-      const geoUrl = CONSTITUENCY_GEOJSON;
-      try {
-        // Load constituency GeoJSON (with Cache API fallback)
-        let geoResponse = null;
-        if ('caches' in window) {
-          try {
-            const cache = await caches.open('constituency-cache-v2');
-            geoResponse = await cache.match(geoUrl);
-            if (!geoResponse) {
-              await cache.add(geoUrl);
-              geoResponse = await cache.match(geoUrl);
-            }
-          } catch (cacheErr) {
-            console.warn('Cache API fallback:', cacheErr);
-          }
-        }
-        if (!geoResponse) geoResponse = await fetch(geoUrl);
-        if (!geoResponse.ok) throw new Error('Network error loading map.');
-        const geoData = await geoResponse.json();
-        constituencies = geoData.features;
-        cacheBoundingBoxes(constituencies);
-
-        // Load merged pincode DB (community + India Post govt, prioritized govt coords)
-        const pinResponse = await fetch(PINDB_URL);
-        if (!pinResponse.ok) throw new Error('Failed to load pincode database.');
-        pindb = await pinResponse.json();
-
-        dbResolve();
-      } catch (err) {
-        console.error('Error preloading data:', err);
-        dbResolve();
-      }
-    }
-
-    window.addEventListener('load', function() {
-        initPreload();
-    });
-
-    async function runSearch() {
-      if (isSearching) return;
-
-      const inputVal = field.value.trim();
-      if (!inputVal) {
-        showToast('Enter your PIN code or constituency to begin.');
-        field.focus();
-        return;
-      }
-
-      isSearching = true;
-      const appealBtn = document.querySelector('.appeal-button');
-      const originalContent = appealBtn.innerHTML;
-      appealBtn.disabled = true;
-      appealBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin-pulse 1.5s linear infinite;"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="4.93" x2="19.07" y2="7.76"></line></svg> Loading...';
-
-      try {
-        if (!constituencies) {
-          await dbPromise;
-          if (!constituencies) {
-            throw new Error('Could not load boundary map. Please check your connection.');
-          }
-        }
-
-        // Check if it is a 6-digit PIN code
-        if (/^\d{6}$/.test(inputVal)) {
-          if (!pindb) throw new Error('Pincode database is still loading. Please try again.');
-          const entry = pindb[inputVal];
-          if (!entry) throw new Error('PIN code not found in our database.');
-
-          // entry = [lat, lon, state, district] — O(1) offline lookup, prioritized govt source over community
-          const [lat, lon] = entry;
-          const match = findMatchingConstituency([lon, lat]);
-          if (!match) throw new Error('No constituency boundary found for this PIN code.');
-          openModal(getName(match), getState(match));
-        } else {
-          // Search by constituency name
-          const query = inputVal.toLowerCase();
-          const feat = constituencies.find(f => {
-            const pcName = getName(f).toLowerCase();
-            return pcName === query || pcName.includes(query);
-          });
-          if (feat) {
-            openModal(getName(feat), getState(feat));
-          } else {
-            throw new Error('Constituency not found. Try a 6-digit PIN code instead.');
-          }
-        }
-      } catch (error) {
-        showToast(error.message || 'Lookup failed.');
-      } finally {
-        appealBtn.innerHTML = originalContent;
-        appealBtn.disabled = false;
-        isSearching = false;
-      }
-    }
-
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      await runSearch();
-    });
-
-    locationButton.addEventListener('click', async () => {
-      if (!navigator.geolocation) {
-        showToast('GPS is not supported by this browser.');
-        return;
-      }
-      
-      if (!constituencies) {
-        locationButton.disabled = true;
-        locationButton.setAttribute('aria-busy', 'true');
-        await dbPromise;
-        if (!constituencies) {
-          locationButton.disabled = false;
-          locationButton.removeAttribute('aria-busy');
-          showToast("Database could not be loaded. Please refresh the page.");
-          return;
-        }
-      }
-
-      locationButton.disabled = true;
-      locationButton.setAttribute('aria-busy', 'true');
-      showToast('Requesting your location...');
-      
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        locationButton.disabled = false;
-        locationButton.removeAttribute('aria-busy');
-
-        const feat = findMatchingConstituency([longitude, latitude]);
-        if (feat) {
-          field.value = getName(feat);
-          openModal(getName(feat), getState(feat));
-        } else {
-          showToast('No constituency found for your location (you may be outside India).');
-        }
-      }, () => {
-        locationButton.disabled = false;
-        locationButton.removeAttribute('aria-busy');
-        showToast('Location access was not available.');
-      }, { enableHighAccuracy: true, timeout: 10000, maximumAge: 300000 });
-    });
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
-
