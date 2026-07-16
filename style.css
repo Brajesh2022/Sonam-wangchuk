@@ -30,7 +30,7 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--blue); outline-
 
 /* Hero Section - background and overlay share the hero bounds */
 .hero { min-height: 536px; position: relative; z-index: 5; isolation: isolate; overflow: visible; background: #eaf2fd; }
-.hero::before { content: ""; position: absolute; inset: 0; z-index: -2; background-image: url("https://i.postimg.cc/DF7ggPvr/sonam-sir.jpg"); background-size: cover; background-position: center 42%; }
+.hero::before { content: ""; position: absolute; inset: 0; z-index: -2; background-image: url("sonam-sir.jpg"); background-size: cover; background-position: center 42%; }
 .hero::after { content: ""; position: absolute; inset: 0; height: 100%; z-index: -1; background: linear-gradient(90deg, rgba(255,255,255,.99) 0%, rgba(255,255,255,.93) 35%, rgba(255,255,255,.24) 54%, rgba(255,255,255,0) 70%); }
 
 .hero-content { padding: 55px 0 46px; width: min(660px, 62%); }
