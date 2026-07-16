@@ -414,7 +414,9 @@ function openMailClient(mp, email = preparedEmail) {
   mailtoWatch = { onLeave, onVisibility, timer };
   window.addEventListener('blur', onLeave, { once: true });
   document.addEventListener('visibilitychange', onVisibility);
-  window.location.href = `mailto:${email.recipients.join(',')}?subject=${encodeURIComponent(email.subject)}&body=${encodeURIComponent(email.body)}`;
+  const to = email.recipients[0];
+  const cc = email.recipients.slice(1).join(',');
+  window.location.href = `mailto:${to}?` + (cc ? `cc=${encodeURIComponent(cc)}&` : '') + `subject=${encodeURIComponent(email.subject)}&body=${encodeURIComponent(email.body)}`;
   showToast(`Opening your email app for ${mp.mp_name}.`);
 }
 
