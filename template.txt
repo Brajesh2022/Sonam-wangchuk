@@ -8,7 +8,7 @@ Dear {mp_name},
 
 You are my Member of Parliament, elected from {constituency}, representing {party}. I am writing to you with extreme urgency. Your attendance last session was only {attendance} out of 31 sittings. Right now, your physical absence from Delhi is having severe consequences.
 
-Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. He has lost over 8.5 kg, his blood pressure has dropped to 109/70, and doctors warn his body is nearing a dangerous phase with risks of organ dysfunction. He is risking his life to demand accountability for the NEET-UG 2026 exam paper leak that has affected millions of students, the resignation of Education Minister Dharmendra Pradhan, and compensation for families of students who died by suicide.
+Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. In a July 16 medical update, doctors said he had lost 9.1 kg after 19 days. He was stable and mentally alert, with blood sugar at 80 mg/dL, a pulse of 72 beats per minute, and blood pressure of 105/61 mmHg lying down and 101/65 mmHg sitting. Doctors are monitoring him daily and warn that continued fasting could affect his organs. He is demanding accountability for the NEET-UG 2026 exam paper leak, the resignation of Education Minister Dharmendra Pradhan, and compensation for families of students who died by suicide.
 
 The Monsoon Session begins July 21. I am asking you directly: travel to Delhi immediately. Walk the few steps to Jantar Mantar, meet Sonam Wangchuk, and show your support before it is too late. Then, carry his demands to the floor of the House.
 
@@ -28,7 +28,7 @@ Dear {mp_name},
 
 You are my Member of Parliament, elected from {constituency}, representing {party}. I know raising this with a BJP MP means asking you to weigh party loyalty against constituency duty. But this is a matter of life and death.
 
-Remember Atal Bihari Vajpayee's words: parties will come and go, but the nation must remain. Right now, the nation's education system is broken, and a citizen is dying for it. Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. His health is in a critical phase, with significant weight loss and dangerously low blood pressure. He is demanding accountability for the NEET-UG paper leak, the resignation of the Education Minister, and justice for affected students.
+Remember Atal Bihari Vajpayee's words: parties will come and go, but the nation must remain. Right now, the nation's education system is broken, and a citizen is risking his health for it. In a July 16 medical update, doctors said Sonam Wangchuk had lost 9.1 kg after 19 days of his hunger strike at Jantar Mantar. He was stable and mentally alert, with blood sugar at 80 mg/dL, a pulse of 72 beats per minute, and blood pressure of 105/61 mmHg lying down and 101/65 mmHg sitting. Doctors are monitoring him daily and warn that continued fasting could affect his organs. He is demanding accountability for the NEET-UG paper leak, the resignation of the Education Minister, and justice for affected students.
 
 Your attendance last session was only {attendance} out of 31 sittings. The Monsoon Session starts July 21. I urge you to be in Delhi before the session, visit Jantar Mantar, and stand with Wangchuk. Raise this issue inside your party and demand accountability from the Education Minister.
 
@@ -48,7 +48,7 @@ Dear {mp_name},
 
 You are my Member of Parliament from {constituency}, representing {party}. Here is a harsh reality check: your attendance last session was below 50%, and you have not asked a single question in this entire Lok Sabha.
 
-While you have remained silent, Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. His medical condition is critical. He has lost over 8.5 kg, his blood pressure is dangerously low, and doctors are warning of organ dysfunction risks. He is fighting for accountability in the education system after the NEET-UG paper leak scandal.
+While you have remained silent, Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. In a July 16 medical update, doctors said he had lost 9.1 kg after 19 days. He was stable and mentally alert, with blood sugar at 80 mg/dL, a pulse of 72 beats per minute, and blood pressure of 105/61 mmHg lying down and 101/65 mmHg sitting. Doctors are monitoring him daily and warn that continued fasting could affect his organs. He is fighting for accountability in the education system after the NEET-UG paper leak scandal.
 
 The government feels it can ignore him because MPs like you are absent and silent. The Monsoon Session begins July 21. You must be in Delhi before then. Go to Jantar Mantar, meet him, and witness his condition yourself. Then, use your seat in Parliament to ask the questions we elected you to ask.
 
@@ -68,7 +68,7 @@ Dear {mp_name},
 
 You are my MP from {constituency}, representing {party}. I understand the tension between party loyalty and constituency duty. But remember Vajpayee's words: parties come and go, the nation must remain.
 
-Your attendance last session was below 50%, and you have asked zero questions in the Lok Sabha. Meanwhile, Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. His health is in a critical phase, with significant weight loss and low blood pressure. He is demanding accountability for the NEET-UG paper leak that has affected students in {constituency} directly.
+Your attendance last session was below 50%, and you have asked zero questions in the Lok Sabha. Meanwhile, Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. In a July 16 medical update, doctors said he had lost 9.1 kg after 19 days. He was stable and mentally alert, with blood sugar at 80 mg/dL, a pulse of 72 beats per minute, and blood pressure of 105/61 mmHg lying down and 101/65 mmHg sitting. Doctors are monitoring him daily and warn that continued fasting could affect his organs. He is demanding accountability for the NEET-UG paper leak that has affected students in {constituency} directly.
 
 The Monsoon Session begins July 21. Before you enter Parliament, visit Jantar Mantar and meet him. As a BJP MP, your voice inside the party matters. Demand accountability from the Education Minister. Do this for the people who elected you.
 
@@ -86,7 +86,7 @@ Dear {mp_name},
 
 You are my Member of Parliament from {constituency}, representing {party}. You attend Parliament regularly, I will give you that. But in this entire Lok Sabha, you have not asked a single question. Showing up to be marked present is not the same as representing us.
 
-Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. His health is deteriorating. He has lost over 8.5 kg, his blood pressure has dropped to 109/70, and doctors warn he is entering a dangerous phase. He is demanding accountability for the NEET-UG paper leak and justice for students.
+Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. In a July 16 medical update, doctors said he had lost 9.1 kg after 19 days. He was stable and mentally alert, with blood sugar at 80 mg/dL, a pulse of 72 beats per minute, and blood pressure of 105/61 mmHg lying down and 101/65 mmHg sitting. Doctors are monitoring him daily and warn that continued fasting could affect his organs. He is demanding accountability for the NEET-UG paper leak and justice for students.
 
 The Monsoon Session starts July 21. Before the session begins, I expect you to visit Jantar Mantar, meet Sonam Wangchuk, and show your support. Then, use your voice in the House to ask the questions the government refuses to answer.
 
@@ -106,7 +106,7 @@ Dear {mp_name},
 
 You are my Member of Parliament from {constituency}, representing {party}. I understand party loyalty matters to you. But loyalty to {party} should not mean abandoning accountability to the people.
 
-You attend Parliament regularly, but you have never asked a question in this Lok Sabha. Sonam Wangchuk is on Day {fast_day} of his hunger strike at Jantar Mantar. His health is in a critical phase, with significant weight loss and low blood pressure. He is fighting for accountability in the education system after the NEET-UG paper leak scandal.
+You attend Parliament regularly, but you have never asked a question in this Lok Sabha. Sonam Wangchuk is on Day {fast_day} of his hunger strike at Jantar Mantar. In a July 16 medical update, doctors said he had lost 9.1 kg after 19 days. He was stable and mentally alert, with blood sugar at 80 mg/dL, a pulse of 72 beats per minute, and blood pressure of 105/61 mmHg lying down and 101/65 mmHg sitting. Doctors are monitoring him daily and warn that continued fasting could affect his organs. He is fighting for accountability in the education system after the NEET-UG paper leak scandal.
 
 Before the Monsoon Session begins on July 21, go to Jantar Mantar. Meet him. See what citizens are being forced to do to get the government's attention. Then, be the BJP MP who actually stands up for students inside the House.
 
@@ -126,7 +126,7 @@ Dear {mp_name},
 
 You are my Member of Parliament from {constituency}. I want to start with a genuine thank you. Your attendance is strong, and you have asked {questions} questions in this Lok Sabha. That is the representation we hope for.
 
-Because I know you take your job seriously, I am bringing an urgent crisis to your attention. Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. His medical condition is critical. He has lost over 8.5 kg, his blood pressure is dangerously low, and doctors warn of organ dysfunction risks. He is demanding accountability for the NEET-UG paper leak and justice for affected students.
+Because I know you take your job seriously, I am bringing an urgent crisis to your attention. Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. In a July 16 medical update, doctors said he had lost 9.1 kg after 19 days. He was stable and mentally alert, with blood sugar at 80 mg/dL, a pulse of 72 beats per minute, and blood pressure of 105/61 mmHg lying down and 101/65 mmHg sitting. Doctors are monitoring him daily and warn that continued fasting could affect his organs. He is demanding accountability for the NEET-UG paper leak and justice for affected students.
 
 The Monsoon Session begins July 21. I trust you to be in Delhi before the session, visit Jantar Mantar to show your support, and raise this critical issue on the floor of the House with the same vigor you have shown before.
 
@@ -146,7 +146,7 @@ Dear {mp_name},
 
 You are my Member of Parliament from {constituency}, and you serve as a Minister in the Union Government. That gives you immense power and influence inside the government.
 
-Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. His health is in a critical phase. He has lost over 8.5 kg, his blood pressure has dropped to 109/70, and doctors warn he is nearing a dangerous stage. He is demanding accountability for the NEET-UG paper leak scandal, the resignation of Education Minister Dharmendra Pradhan, and compensation for families of students who died by suicide.
+Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. In a July 16 medical update, doctors said he had lost 9.1 kg after 19 days. He was stable and mentally alert, with blood sugar at 80 mg/dL, a pulse of 72 beats per minute, and blood pressure of 105/61 mmHg lying down and 101/65 mmHg sitting. Doctors are monitoring him daily and warn that continued fasting could affect his organs. He is demanding accountability for the NEET-UG paper leak scandal, the resignation of Education Minister Dharmendra Pradhan, and compensation for families of students who died by suicide.
 
 Have you visited Jantar Mantar? Have you raised this inside the government? As a Minister, you can push for internal accountability that a backbencher cannot.
 
@@ -166,7 +166,7 @@ Dear {mp_name},
 
 You are my MP from {constituency}, and you serve as a Minister in the Union Government. Most Ministers never ask questions in the House. You have. That shows you take your role as an MP seriously, not just your Ministerial post.
 
-I am bringing an urgent matter to you. Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. His medical condition is critical. He has lost over 8.5 kg, his blood pressure is dangerously low, and doctors warn of organ dysfunction risks. He is demanding accountability for the NEET-UG paper leak and justice for students.
+I am bringing an urgent matter to you. Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. In a July 16 medical update, doctors said he had lost 9.1 kg after 19 days. He was stable and mentally alert, with blood sugar at 80 mg/dL, a pulse of 72 beats per minute, and blood pressure of 105/61 mmHg lying down and 101/65 mmHg sitting. Doctors are monitoring him daily and warn that continued fasting could affect his organs. He is demanding accountability for the NEET-UG paper leak and justice for students.
 
 Before the Monsoon Session begins on July 21, please visit Jantar Mantar to meet him. Given your position inside the government and your willingness to speak up, you are uniquely positioned to break the silence and demand accountability. Do not just take note of this, act on it.
 
@@ -184,7 +184,7 @@ Dear Shri Rahul Gandhi,
 
 You are my Member of Parliament from {constituency}, and you serve as Leader of the Opposition. Yours is one of the most visible platforms in Indian democracy.
 
-Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. His health is in a critical phase. He has lost over 8.5 kg, his blood pressure has dropped to 109/70, and doctors warn he is entering a dangerous stage. He is fighting for accountability in the education system after the NEET-UG paper leak scandal. The government is ignoring him, hoping he will simply collapse.
+Sonam Wangchuk is on Day {fast_day} of a hunger strike at Jantar Mantar. In a July 16 medical update, doctors said he had lost 9.1 kg after 19 days. He was stable and mentally alert, with blood sugar at 80 mg/dL, a pulse of 72 beats per minute, and blood pressure of 105/61 mmHg lying down and 101/65 mmHg sitting. Doctors are monitoring him daily and warn that continued fasting could affect his organs. He is fighting for accountability in the education system after the NEET-UG paper leak scandal. The government is ignoring him while his health remains under medical watch.
 
 This is exactly why the Opposition exists. Before the Monsoon Session begins on July 21, I want to see you at Jantar Mantar, standing beside Sonam Wangchuk. People remember who showed up when it was a matter of life and death, and who stayed away.
 
@@ -204,7 +204,7 @@ Dear Prime Minister,
 
 You are my Member of Parliament from {constituency}. You were elected on a promise of accountability. "Na khaunga, na khane dunga" resonated with millions of us.
 
-Right now, the Ministry of Education is at the center of the NEET-UG paper leak scandal that has cost students their futures and, tragically, their lives. Sonam Wangchuk, a 59 year old citizen, is on Day {fast_day} of a hunger strike at Jantar Mantar. His medical condition is critical. He has lost over 8.5 kg, his blood pressure is dangerously low, and doctors warn of organ dysfunction risks. He is demanding accountability, the resignation of Education Minister Dharmendra Pradhan, and systemic reform.
+Right now, the Ministry of Education is at the center of the NEET-UG paper leak scandal that has cost students their futures and, tragically, their lives. Sonam Wangchuk, a 59 year old citizen, is on Day {fast_day} of a hunger strike at Jantar Mantar. In a July 16 medical update, doctors said he had lost 9.1 kg after 19 days. He was stable and mentally alert, with blood sugar at 80 mg/dL, a pulse of 72 beats per minute, and blood pressure of 105/61 mmHg lying down and 101/65 mmHg sitting. Doctors are monitoring him daily and warn that continued fasting could affect his organs. He is demanding accountability, the resignation of Education Minister Dharmendra Pradhan, and systemic reform.
 
 Your government's silence is deafening. Before the Monsoon Session begins on July 21, I am asking you directly: meet Sonam Wangchuk. Accept his demands for accountability in the education system. Hold your Minister accountable.
 
